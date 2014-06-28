@@ -1,16 +1,22 @@
 package classification;
 
+import gui.EMGClassifierGUI;
 import classification.SignalReader.ObservableSignalListener;
 
 
 public class Manager implements ObservableSignalListener {
 	
+	EMGClassifierGUI gui;
 	
-	
+	public void setGui(EMGClassifierGUI gui) {
+		this.gui = gui;
+	}
+
+
 	SignalReader signalReader;
 
 	public Manager() {
-		signalReader = new SignalReader(this);
+//		signalReader = new SignalReader(this);
 		// start serial port reading and get signals
 		
 //		FeatrueExtractor
@@ -27,6 +33,7 @@ public class Manager implements ObservableSignalListener {
 		System.out.println("sig2 " + sig2.getValue());
 		System.out.println("sig3 " + sig3.getValue());
 		
+		gui.notify(sig1, sig2, sig3);
 		
 	}
 
