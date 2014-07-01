@@ -16,14 +16,14 @@ public class Manager implements ObservableSignalListener {
 	SignalReader signalReader;
 
 	public Manager() {
-//		signalReader = new SignalReader(this);
+	signalReader = new SignalReader(this);
 		// start serial port reading and get signals
 		
-//		FeatrueExtractor
+//		FeatureExtractor
 		
 		// classify
 		
-		Classifier classify = new Classifier();
+//		Classifier classify = new Classifier();
 	}
 
 

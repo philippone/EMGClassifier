@@ -24,7 +24,9 @@ public class SignalReader implements SerialPortEventListener {
 	SerialPort serialPort;
 	/** The port we're normally going to use. */
 	private static final String PORT_NAMES[] = { "/dev/cu.usbmodem641",
-			"/dev/tty.usbmodem641", "/dev/tty.usbserial-A9007UX1", // Mac OS X
+			"/dev/tty.usbmodem641", "/dev/cu.usbmodem441",
+			"/dev/tty.usbmodem441",  "/dev/cu.usbmodem411",
+			"/dev/tty.usbmodem411", "/dev/tty.usbserial-A9007UX1", // Mac OS X
 			"/dev/ttyACM0", // Raspberry Pi
 			"/dev/ttyUSB0", // Linux
 			"COM3", "COM2", "COM1", // Windows
