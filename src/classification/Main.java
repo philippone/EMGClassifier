@@ -1,3 +1,4 @@
+package classification;
 import gui.EMGClassifierGUI;
 import javafx.stage.Stage;
 
