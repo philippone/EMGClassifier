@@ -4,9 +4,9 @@ public class Sample {
 
 	
 	private int size;
-	private int[][] signals;
+	private Signal[][] signals;
 	
-	public Sample(int[]... nSignals) {
+	public Sample(Signal[]... nSignals) {
 		signals = nSignals;
 	}
 

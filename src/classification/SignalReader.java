@@ -13,7 +13,7 @@ import gnu.io.SerialPortEventListener;
 public class SignalReader implements SerialPortEventListener {
 
 	public interface ObservableSignalListener {
-		public void notifyManager(Signal sig1, Signal sig2, Signal sig3);
+		public void notifySignal(Signal... sig);
 	}
 
 	Manager manager;
@@ -149,7 +149,7 @@ public class SignalReader implements SerialPortEventListener {
 		sig2.setValue(Integer.valueOf(values[1]));
 		sig3.setValue(Integer.valueOf(values[2]));
 		
-		manager.notifyManager(sig1, sig2, sig3);
+		manager.notifySignal(sig1, sig2, sig3);
 		
 	}
 

@@ -123,7 +123,7 @@ public class EMGClassifierGUI extends Application {
 						sig2.setValue((int) (Math.random() * 100));
 						sig3.setValue((int) (Math.random() * 100));
 
-						man.notifyManager(sig1, sig2, sig3);
+						man.notifySignal(sig1, sig2, sig3);
 
 					}
 
