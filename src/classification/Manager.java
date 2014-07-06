@@ -7,18 +7,19 @@ import classification.SignalReader.ObservableSignalListener;
 public class Manager implements ObservableSignalListener,
 		ObservableSampleListener {
 
+	private SignalReader signalReader;
+	private SampleRecognizer sampleRecog;
+
 	EMGClassifierGUI gui;
 
 	public void setGui(EMGClassifierGUI gui) {
 		this.gui = gui;
 	}
 
-	SignalReader signalReader;
-
 	public Manager() {
 		// read signal from sensors
 		signalReader = new SignalReader(this);
-
+		sampleRecog = new SampleRecognizer(this);
 		// FeatureExtractor
 
 		// classify
@@ -37,7 +38,8 @@ public class Manager implements ObservableSignalListener,
 
 		// notify gui
 		gui.notify(sig[0], sig[1], sig[2]);
-
+		// forward Signals to SampleRecognizer
+		sampleRecog.recognizeSample(sig);
 	}
 
 	/**
