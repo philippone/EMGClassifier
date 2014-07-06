@@ -1,6 +1,6 @@
-import javafx.stage.Stage;
+package classification;
 import gui.EMGClassifierGUI;
-import classification.Manager;
+import javafx.stage.Stage;
 
 
 public class Main {
