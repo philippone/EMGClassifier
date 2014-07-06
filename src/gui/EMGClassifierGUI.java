@@ -110,7 +110,7 @@ public class EMGClassifierGUI extends Application {
 					
 					System.out.println("Testing");
 					while (true) {
-						Thread.sleep(20);
+						Thread.sleep(400);
 						
 						Signal sig1 = new Signal();
 						Signal sig2 = new Signal();
