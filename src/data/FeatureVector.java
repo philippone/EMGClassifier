@@ -13,4 +13,8 @@ public class FeatureVector {
 	
 	}
 
+	public FeatureVector(FeatureVector features) {
+		this.features = features.getFeatures();
+	}
+
 }

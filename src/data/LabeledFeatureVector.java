@@ -1,17 +1,26 @@
 package data;
 
+import classification.Gesture;
+
 public class LabeledFeatureVector extends FeatureVector {
 	
-	private String label;
+	private double label;
 
-	public String getLabel() {
+	public double getLabel() {
 		return label;
 	}
 
-	public LabeledFeatureVector(String label, double... features) {
+	public LabeledFeatureVector(double label, double... features) {
 		super(features);
 		this.label = label;
 		
+	}
+
+	public LabeledFeatureVector(Gesture g, FeatureVector features) {
+		super(features.getFeatures());
+		//TODO
+		this.label = -1; //TODO
+		//TODO
 	}
 
 }

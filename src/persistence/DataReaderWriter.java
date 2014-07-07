@@ -94,7 +94,7 @@ public class DataReaderWriter {
 							}
 
 							LabeledFeatureVector lfv = new LabeledFeatureVector(
-									label, features);
+									Double.valueOf(label), features);
 							datalist.add(lfv);
 						}
 
