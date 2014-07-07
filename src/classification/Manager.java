@@ -1,5 +1,6 @@
 package classification;
 
+import libsvm.svm_model;
 import gui.EMGClassifierGUI;
 import classification.SampleRecognizer.ObservableSampleListener;
 import classification.SignalReader.ObservableSignalListener;
@@ -9,22 +10,27 @@ public class Manager implements ObservableSignalListener,
 
 	private SignalReader signalReader;
 	private SampleRecognizer sampleRecog;
+	private Mode mode;
+	private Trainer trainer;
 
 	EMGClassifierGUI gui;
+	private Classifier classifier;
+	
 
 	public void setGui(EMGClassifierGUI gui) {
 		this.gui = gui;
 	}
 
 	public Manager() {
+		mode = Mode.IDLE;
+		
 		// read signal from sensors
 		signalReader = new SignalReader(this);
 		sampleRecog = new SampleRecognizer(this);
-		// FeatureExtractor
 
-		// classify
-
-		// Classifier classify = new Classifier();
+		// init trainer and classifier
+		trainer = new Trainer();
+//		classifier = new Classifier(model)
 	}
 
 	/**
@@ -47,8 +53,31 @@ public class Manager implements ObservableSignalListener,
 	 * */
 	@Override
 	public void notifySample(Sample s) {
-		// TODO forward Sample to Trainer or Classifier
 
+		if (mode == Mode.IDLE) {
+
+			
+		} else if (mode == Mode.TRAINING) {
+			// forward Sample to Trainer
+			Gesture currentGesture = Gesture.DOWN;
+			trainer.addSample(s, currentGesture);
+
+		} else if (mode == Mode.CLASSIFYING) {
+			// forward Sample to Classifier
+			classifier.classifySample(s);
+		}
+
+	}
+	
+	
+	public void changeToClassifyMode() {
+		mode = mode.CLASSIFYING;
+		svm_model svm_model = trainer.createModel();
+		classifier = new Classifier(svm_model);
+	}
+	
+	public void changeToTrainMode() {
+		mode = mode.TRAINING;
 	}
 
 }

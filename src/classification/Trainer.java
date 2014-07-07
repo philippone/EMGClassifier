@@ -37,7 +37,8 @@ public class Trainer {
 		return lfv;
 	}
 
-	public svm_model createModel(ArrayList<LabeledFeatureVector> lfvList) {
+	
+	public svm_model createModel() {
 		svm_problem prob = new svm_problem();
 		int dataCount = lfvList.size();
 		prob.y = new double[dataCount];
