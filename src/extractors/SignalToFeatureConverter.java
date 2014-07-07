@@ -20,6 +20,13 @@ public class SignalToFeatureConverter {
 	private void addExtractors() {
 		// add extractors
 		
+		//MAV
+		MeanAbsoluteValue mav = new MeanAbsoluteValue();
+		extractors.add(mav);
+		
+		//WAMP
+		WillsonAmplitude wamp = new WillsonAmplitude();
+		extractors.add(wamp);
 	}
 
 	public FeatureVector convert(Sample sample) {

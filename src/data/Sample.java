@@ -8,7 +8,7 @@ public class Sample {
 	private int[][] signals;
 
 	public Sample(int[]... nSignals) {
-		signals = nSignals;
+		setSignals(nSignals);
 		size = nSignals.length;
 	}
 
@@ -29,6 +29,19 @@ public class Sample {
 				signals[i][j] = sig.get(j);
 			}
 		}
+	}
+	
+	
+	public int[] getSignal(int sensor) {
+		return getSignals()[sensor];
+	}
+
+	public int[][] getSignals() {
+		return signals;
+	}
+
+	public void setSignals(int[][] signals) {
+		this.signals = signals;
 	}
 
 }
