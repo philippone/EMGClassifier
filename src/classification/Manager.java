@@ -37,13 +37,14 @@ public class Manager implements ObservableSignalListener,
 	 * notify manager when new signal appears
 	 * */
 	@Override
-	public void notifySignal(Signal... sig) {
-		System.out.println("sig1 " + sig[0].getValue());
-		System.out.println("sig2 " + sig[1].getValue());
-		System.out.println("sig3 " + sig[2].getValue());
+	public void notifySignal(int... sig) {
+		System.out.println("sig1 " + sig[0]);
+		System.out.println("sig2 " + sig[1]);
+		System.out.println("sig3 " + sig[2]);
 
 		// notify gui
-		gui.notify(sig[0], sig[1], sig[2]);
+		gui.notify(new Signal(sig[0]), new Signal(sig[1]), new Signal(sig[2]));
+		
 		// forward Signals to SampleRecognizer
 		sampleRecog.recognizeSample(sig);
 	}
@@ -71,13 +72,13 @@ public class Manager implements ObservableSignalListener,
 	
 	
 	public void changeToClassifyMode() {
-		mode = mode.CLASSIFYING;
+		mode = Mode.CLASSIFYING;
 		svm_model svm_model = trainer.createModel();
 		classifier = new Classifier(svm_model);
 	}
 	
 	public void changeToTrainMode() {
-		mode = mode.TRAINING;
+		mode = Mode.TRAINING;
 	}
 
 }
