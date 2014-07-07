@@ -9,6 +9,8 @@ import libsvm.svm_parameter;
 import libsvm.svm_problem;
 import data.FeatureVector;
 import data.LabeledFeatureVector;
+import data.Sample;
+import extractors.SignalToFeatureConverter;
 
 public class Trainer {
 

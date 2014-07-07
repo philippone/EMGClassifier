@@ -1,4 +1,4 @@
-package classification;
+package data;
 
 import java.util.ArrayList;
 

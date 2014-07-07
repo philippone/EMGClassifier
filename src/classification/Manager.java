@@ -4,6 +4,8 @@ import libsvm.svm_model;
 import gui.EMGClassifierGUI;
 import classification.SampleRecognizer.ObservableSampleListener;
 import classification.SignalReader.ObservableSignalListener;
+import data.Sample;
+import data.Signal;
 
 public class Manager implements ObservableSignalListener,
 		ObservableSampleListener {
@@ -15,7 +17,6 @@ public class Manager implements ObservableSignalListener,
 
 	EMGClassifierGUI gui;
 	private Classifier classifier;
-	
 
 	public void setGui(EMGClassifierGUI gui) {
 		this.gui = gui;
@@ -23,14 +24,13 @@ public class Manager implements ObservableSignalListener,
 
 	public Manager() {
 		mode = Mode.IDLE;
-		
+
 		// read signal from sensors
 		signalReader = new SignalReader(this);
 		sampleRecog = new SampleRecognizer(this);
 
-		// init trainer and classifier
+		// init trainer
 		trainer = new Trainer();
-//		classifier = new Classifier(model)
 	}
 
 	/**
@@ -44,7 +44,7 @@ public class Manager implements ObservableSignalListener,
 
 		// notify gui
 		gui.notify(new Signal(sig[0]), new Signal(sig[1]), new Signal(sig[2]));
-		
+
 		// forward Signals to SampleRecognizer
 		sampleRecog.recognizeSample(sig);
 	}
@@ -56,29 +56,35 @@ public class Manager implements ObservableSignalListener,
 	public void notifySample(Sample s) {
 
 		if (mode == Mode.IDLE) {
+			//TODO
 
-			
 		} else if (mode == Mode.TRAINING) {
 			// forward Sample to Trainer
+			// TODO
 			Gesture currentGesture = Gesture.DOWN;
 			trainer.addSample(s, currentGesture);
 
 		} else if (mode == Mode.CLASSIFYING) {
 			// forward Sample to Classifier
-			classifier.classifySample(s);
+			Gesture g = classifier.classifySample(s);
+
+			// TODO notify gui, invoke actoin etc.
 		}
 
 	}
-	
-	
+
 	public void changeToClassifyMode() {
 		mode = Mode.CLASSIFYING;
 		svm_model svm_model = trainer.createModel();
 		classifier = new Classifier(svm_model);
 	}
-	
+
 	public void changeToTrainMode() {
 		mode = Mode.TRAINING;
+	}
+
+	public void changeToIdleMode() {
+		mode = Mode.IDLE;
 	}
 
 }

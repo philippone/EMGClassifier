@@ -13,7 +13,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import classification.Manager;
-import classification.Signal;
+import data.Signal;
 
 public class EMGClassifierGUI extends Application {
 

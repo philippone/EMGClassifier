@@ -2,6 +2,8 @@ package classification;
 
 import java.util.ArrayList;
 
+import data.Sample;
+
 public class SampleRecognizer {
 
 	int recordTime = 400;
