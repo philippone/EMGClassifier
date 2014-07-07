@@ -16,6 +16,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+<<<<<<< HEAD
+=======
+import classification.Manager;
+import data.Signal;
+>>>>>>> bfd8159c9edeb4f83610f756e8e8f82f3fa1da07
 
 public class EMGClassifierGUI extends Application {
 

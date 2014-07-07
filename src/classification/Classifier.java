@@ -5,6 +5,8 @@ import libsvm.svm_model;
 import libsvm.svm_node;
 import data.FeatureVector;
 import data.LabeledFeatureVector;
+import data.Sample;
+import extractors.SignalToFeatureConverter;
 
 public class Classifier {
 
