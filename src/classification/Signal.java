@@ -13,6 +13,11 @@ public class Signal {
 		
 	}
 
+	public Signal(int i) {
+		amplitude = new ArrayList<Integer>();
+		v = i;
+	}
+
 	public int getValue() {
 		return v;
 	}

@@ -110,18 +110,18 @@ public class EMGClassifierGUI extends Application {
 					
 					System.out.println("Testing");
 					while (true) {
-						Thread.sleep(400);
-						
-						Signal sig1 = new Signal();
-						Signal sig2 = new Signal();
-						Signal sig3 = new Signal();
-						
-						sig1.setValue((int) (Math.random() * 100));
-						sig2.setValue((int) (Math.random() * 100));
-						sig3.setValue((int) (Math.random() * 100));
-						
-						man.notifyManager(sig1, sig2, sig3);
-						
+						Thread.sleep(20);
+
+//						Signal sig1 = new Signal();
+//						Signal sig2 = new Signal();
+//						Signal sig3 = new Signal();
+
+//						sig1.setValue((int) (Math.random() * 100));
+//						sig2.setValue((int) (Math.random() * 100));
+//						sig3.setValue((int) (Math.random() * 100));
+
+						man.notifySignal((int) (Math.random() * 100), (int) (Math.random() * 100), (int) (Math.random() * 100));
+
 					}
 					
 				} catch (InterruptedException e) {

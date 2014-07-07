@@ -13,7 +13,7 @@ import gnu.io.SerialPortEventListener;
 public class SignalReader implements SerialPortEventListener {
 
 	public interface ObservableSignalListener {
-		public void notifySignal(Signal... sig);
+		public void notifySignal(int... sig);
 	}
 
 	Manager manager;
@@ -25,7 +25,7 @@ public class SignalReader implements SerialPortEventListener {
 	/** The port we're normally going to use. */
 	private static final String PORT_NAMES[] = { "/dev/cu.usbmodem641",
 			"/dev/tty.usbmodem641", "/dev/cu.usbmodem441",
-			"/dev/tty.usbmodem441",  "/dev/cu.usbmodem411",
+			"/dev/tty.usbmodem441", "/dev/cu.usbmodem411",
 			"/dev/tty.usbmodem411", "/dev/tty.usbserial-A9007UX1", // Mac OS X
 			"/dev/ttyACM0", // Raspberry Pi
 			"/dev/ttyUSB0", // Linux
@@ -132,7 +132,7 @@ public class SignalReader implements SerialPortEventListener {
 			try {
 				String inputLine = input.readLine();
 				convertSignal(inputLine);
-				//System.out.println("ReadPort: " + inputLine);
+				// System.out.println("ReadPort: " + inputLine);
 			} catch (Exception e) {
 				System.err.println(e.toString());
 			}
@@ -144,13 +144,14 @@ public class SignalReader implements SerialPortEventListener {
 	private void convertSignal(String inputLine) {
 		inputLine.trim();
 		String[] values = inputLine.split(",");
-		
+
 		sig1.setValue(Integer.valueOf(values[0]));
 		sig2.setValue(Integer.valueOf(values[1]));
 		sig3.setValue(Integer.valueOf(values[2]));
-		
-		manager.notifySignal(sig1, sig2, sig3);
-		
+
+		manager.notifySignal(Integer.valueOf(values[0]),
+				Integer.valueOf(values[1]), Integer.valueOf(values[2]));
+
 	}
 
 }
