@@ -63,6 +63,7 @@ public class SampleRecognizer {
 	 */
 	private boolean detect(int... sig) {
 		// if all signals > 0
+		
 		for (int i = 0; i < sig.length; i++) {
 			if (sig[i] <= 0)
 				return false;
