@@ -145,7 +145,6 @@ public class SignalReader implements SerialPortEventListener {
 	private void convertSignal(String inputLine) {
 		inputLine.trim();
 		String[] values = inputLine.split(",");
-
 		sig1.setValue(Integer.valueOf(values[0]));
 		sig2.setValue(Integer.valueOf(values[1]));
 		sig3.setValue(Integer.valueOf(values[2]));

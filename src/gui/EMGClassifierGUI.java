@@ -48,82 +48,87 @@ public class EMGClassifierGUI extends Application {
 	private ToggleButton gestureEnterButton;
 	private ToggleButton gestureBackButton;
 
-
-
 	@Override
 	public void start(Stage arg0) throws Exception {
 
 		GridPane root = new GridPane();
-		Scene scene = new Scene(root, 1000,800);
+		Scene scene = new Scene(root, 1000, 800);
 		GridPane.setHgrow(root, Priority.ALWAYS);
 		GridPane.setVgrow(root, Priority.ALWAYS);
 		root.gridLinesVisibleProperty().set(true);
-		
-		LineChart<Number, Number> sensor1 = new LineChart<Number, Number>(new NumberAxis(), new NumberAxis());
-		LineChart<Number, Number> sensor2 = new LineChart<Number, Number>(new NumberAxis(), new NumberAxis());
-		LineChart<Number, Number> sensor3 = new LineChart<Number, Number>(new NumberAxis(), new NumberAxis());
-		
+
+		LineChart<Number, Number> sensor1 = new LineChart<Number, Number>(
+				new NumberAxis(), new NumberAxis());
+		LineChart<Number, Number> sensor2 = new LineChart<Number, Number>(
+				new NumberAxis(), new NumberAxis());
+		LineChart<Number, Number> sensor3 = new LineChart<Number, Number>(
+				new NumberAxis(), new NumberAxis());
+
 		GridPane.setVgrow(sensor1, Priority.SOMETIMES);
 		GridPane.setVgrow(sensor2, Priority.SOMETIMES);
 		GridPane.setVgrow(sensor3, Priority.SOMETIMES);
 		GridPane.setHgrow(sensor1, Priority.SOMETIMES);
 		GridPane.setHgrow(sensor2, Priority.SOMETIMES);
 		GridPane.setHgrow(sensor3, Priority.SOMETIMES);
-		
+
 		sensor1.setTitle("Sensor 1 Input");
 		sensor1.setAnimated(false);
 		sensor1.setCreateSymbols(false);
-		((NumberAxis)sensor1.getXAxis()).setUpperBound(CHARTRATE);
-		((NumberAxis)sensor1.getYAxis()).setUpperBound(CHART_MAXVALUE);
-		((NumberAxis)sensor1.getXAxis()).setAutoRanging(false);
-		
+		((NumberAxis) sensor1.getXAxis()).setUpperBound(CHARTRATE);
+		((NumberAxis) sensor1.getYAxis()).setUpperBound(CHART_MAXVALUE);
+		((NumberAxis) sensor1.getXAxis()).setAutoRanging(false);
+
 		sensor2.setTitle("Sensor 2 Input");
 		sensor2.setAnimated(false);
 		sensor2.setCreateSymbols(false);
-		((NumberAxis)sensor2.getXAxis()).setUpperBound(CHARTRATE);
-		((NumberAxis)sensor2.getYAxis()).setUpperBound(CHART_MAXVALUE);
-		((NumberAxis)sensor2.getXAxis()).setAutoRanging(false);
-		
+		((NumberAxis) sensor2.getXAxis()).setUpperBound(CHARTRATE);
+		((NumberAxis) sensor2.getYAxis()).setUpperBound(CHART_MAXVALUE);
+		((NumberAxis) sensor2.getXAxis()).setAutoRanging(false);
+
 		sensor3.setTitle("Sensor 3 Input");
 		sensor3.setAnimated(false);
 		sensor3.setCreateSymbols(false);
-		((NumberAxis)sensor3.getXAxis()).setUpperBound(CHARTRATE);
-		((NumberAxis)sensor3.getYAxis()).setUpperBound(CHART_MAXVALUE);
-		((NumberAxis)sensor3.getXAxis()).setAutoRanging(false);
-		
+		((NumberAxis) sensor3.getXAxis()).setUpperBound(CHARTRATE);
+		((NumberAxis) sensor3.getYAxis()).setUpperBound(CHART_MAXVALUE);
+		((NumberAxis) sensor3.getXAxis()).setAutoRanging(false);
+
 		sensor1Series = new Series<Number, Number>();
 		sensor2Series = new Series<Number, Number>();
 		sensor3Series = new Series<Number, Number>();
-		
-		ObservableList<XYChart.Data<Number, Number>> sensor1Data = FXCollections.observableArrayList();
-		ObservableList<XYChart.Data<Number, Number>> sensor2Data = FXCollections.observableArrayList();
-		ObservableList<XYChart.Data<Number, Number>> sensor3Data = FXCollections.observableArrayList();
-		
+
+		ObservableList<XYChart.Data<Number, Number>> sensor1Data = FXCollections
+				.observableArrayList();
+		ObservableList<XYChart.Data<Number, Number>> sensor2Data = FXCollections
+				.observableArrayList();
+		ObservableList<XYChart.Data<Number, Number>> sensor3Data = FXCollections
+				.observableArrayList();
+
 		sensor1Series.setData(sensor1Data);
 		sensor2Series.setData(sensor2Data);
 		sensor3Series.setData(sensor3Data);
-		
+
 		sensor1.setData(FXCollections.observableArrayList(sensor1Series));
 		sensor2.setData(FXCollections.observableArrayList(sensor2Series));
 		sensor3.setData(FXCollections.observableArrayList(sensor3Series));
-		
+
 		// Vbox with buttons to select mode
-		
-//		GridPane modePane = new GridPane();
+
+		// GridPane modePane = new GridPane();
 		VBox modeBox = new VBox();
 		modeBox.setSpacing(5);
-		
+
 		ToggleGroup tgMode = new ToggleGroup();
 		ToggleButton modeIdleButton = new ToggleButton("Idle");
 		ToggleButton modeTrainingButton = new ToggleButton("Training");
-		ToggleButton modeClassificationButton = new ToggleButton("Classification");
+		ToggleButton modeClassificationButton = new ToggleButton(
+				"Classification");
 		ToggleButton modeRecordButton = new ToggleButton("Record");
-		
+
 		modeIdleButton.setToggleGroup(tgMode);
 		modeTrainingButton.setToggleGroup(tgMode);
 		modeClassificationButton.setToggleGroup(tgMode);
 		modeRecordButton.setToggleGroup(tgMode);
-		
+
 		modeIdleButton.setMaxWidth(Double.MAX_VALUE);
 		modeIdleButton.setMaxHeight(Double.MAX_VALUE);
 		modeTrainingButton.setMaxWidth(Double.MAX_VALUE);
@@ -132,67 +137,71 @@ public class EMGClassifierGUI extends Application {
 		modeClassificationButton.setMaxHeight(Double.MAX_VALUE);
 		modeRecordButton.setMaxWidth(Double.MAX_VALUE);
 		modeRecordButton.setMaxHeight(Double.MAX_VALUE);
-		
+
 		modeBox.getChildren().add(modeIdleButton);
 		modeBox.getChildren().add(modeTrainingButton);
 		modeBox.getChildren().add(modeClassificationButton);
 		modeBox.getChildren().add(modeRecordButton);
-		
+
 		VBox.setVgrow(modeIdleButton, Priority.ALWAYS);
 		VBox.setVgrow(modeTrainingButton, Priority.ALWAYS);
 		VBox.setVgrow(modeClassificationButton, Priority.ALWAYS);
 		VBox.setVgrow(modeRecordButton, Priority.ALWAYS);
-		
-		modeIdleButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 
-			@Override
-			public void handle(MouseEvent arg0) {
-				man.changeToIdleMode();
-			}
-		});
-		modeTrainingButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+		modeIdleButton.addEventHandler(MouseEvent.MOUSE_CLICKED,
+				new EventHandler<MouseEvent>() {
 
-			@Override
-			public void handle(MouseEvent arg0) {
-				man.changeToTrainMode();
-			}
-		});
-		modeClassificationButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+					@Override
+					public void handle(MouseEvent arg0) {
+						man.changeToIdleMode();
+					}
+				});
+		modeTrainingButton.addEventHandler(MouseEvent.MOUSE_CLICKED,
+				new EventHandler<MouseEvent>() {
 
-			@Override
-			public void handle(MouseEvent arg0) {
-				man.changeToClassifyMode();
-			}
-		});
-		modeRecordButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+					@Override
+					public void handle(MouseEvent arg0) {
+						man.changeToTrainMode();
+					}
+				});
+		modeClassificationButton.addEventHandler(MouseEvent.MOUSE_CLICKED,
+				new EventHandler<MouseEvent>() {
 
-			@Override
-			public void handle(MouseEvent arg0) {
-				man.changeToRecordMode();
-			}
-		});
-		
-//		modeBox.fillWidthProperty().set(true);
-		
+					@Override
+					public void handle(MouseEvent arg0) {
+						man.changeToClassifyMode();
+					}
+				});
+		modeRecordButton.addEventHandler(MouseEvent.MOUSE_CLICKED,
+				new EventHandler<MouseEvent>() {
+
+					@Override
+					public void handle(MouseEvent arg0) {
+						man.changeToRecordMode();
+					}
+				});
+
+		// modeBox.fillWidthProperty().set(true);
+
 		VBox gestureBox = new VBox();
 		gestureBox.setSpacing(5);
 		gestureBox.setPrefWidth(200);
 		tgGesture = new ToggleGroup();
-		
+
 		gestureUpButton = new ToggleButton("Up");
 		gestureDownButton = new ToggleButton("Down");
 		gestureRightButton = new ToggleButton("Right");
 		gestureLeftButton = new ToggleButton("Left");
 		gestureEnterButton = new ToggleButton("Enter");
 		gestureBackButton = new ToggleButton("Undefined");
-		
+
 		gestureBackButton.setToggleGroup(tgGesture);
 		gestureEnterButton.setToggleGroup(tgGesture);
 		gestureLeftButton.setToggleGroup(tgGesture);
 		gestureRightButton.setToggleGroup(tgGesture);
 		gestureUpButton.setToggleGroup(tgGesture);
 		gestureDownButton.setToggleGroup(tgGesture);
-		
+
 		gestureBackButton.setMaxWidth(Double.MAX_VALUE);
 		gestureBackButton.setMaxHeight(Double.MAX_VALUE);
 		gestureEnterButton.setMaxWidth(Double.MAX_VALUE);
@@ -205,164 +214,167 @@ public class EMGClassifierGUI extends Application {
 		gestureUpButton.setMaxHeight(Double.MAX_VALUE);
 		gestureDownButton.setMaxWidth(Double.MAX_VALUE);
 		gestureDownButton.setMaxHeight(Double.MAX_VALUE);
-		
+
 		VBox.setVgrow(gestureBackButton, Priority.ALWAYS);
 		VBox.setVgrow(gestureEnterButton, Priority.ALWAYS);
 		VBox.setVgrow(gestureLeftButton, Priority.ALWAYS);
 		VBox.setVgrow(gestureRightButton, Priority.ALWAYS);
 		VBox.setVgrow(gestureUpButton, Priority.ALWAYS);
 		VBox.setVgrow(gestureDownButton, Priority.ALWAYS);
-		
+
 		gestureBox.getChildren().add(gestureUpButton);
 		gestureBox.getChildren().add(gestureDownButton);
 		gestureBox.getChildren().add(gestureLeftButton);
 		gestureBox.getChildren().add(gestureRightButton);
 		gestureBox.getChildren().add(gestureEnterButton);
 		gestureBox.getChildren().add(gestureBackButton);
-		
+
 		gestureUpButton.setUserData(Gesture.UP);
 		gestureDownButton.setUserData(Gesture.DOWN);
 		gestureLeftButton.setUserData(Gesture.LEFT);
 		gestureRightButton.setUserData(Gesture.RIGHT);
 		gestureEnterButton.setUserData(Gesture.ENTER);
 		gestureBackButton.setUserData(Gesture.UNDEFINED);
-		
-		
-		tgGesture.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
 
-			@Override
-			public void changed(ObservableValue<? extends Toggle> arg0,
-					Toggle arg1, Toggle arg2) {
-				
-				if (arg2 == null) {
-					currentGesture = Gesture.UNDEFINED;
-				} else {
-					currentGesture = (Gesture) arg2.getUserData();
-				}
-				
-			}
-		});
-		
-		root.addColumn(0, sensor1,sensor2,sensor3);
+		tgGesture.selectedToggleProperty().addListener(
+				new ChangeListener<Toggle>() {
+
+					@Override
+					public void changed(ObservableValue<? extends Toggle> arg0,
+							Toggle arg1, Toggle arg2) {
+
+						if (arg2 == null) {
+							currentGesture = Gesture.UNDEFINED;
+						} else {
+							currentGesture = (Gesture) arg2.getUserData();
+						}
+
+					}
+				});
+
+		root.addColumn(0, sensor1, sensor2, sensor3);
 		root.addColumn(1, modeBox, gestureBox);
-		
+
 		GridPane.setMargin(modeBox, new Insets(5));
 		GridPane.setMargin(gestureBox, new Insets(5));
-		
+
 		arg0.setScene(scene);
 		arg0.show();
-		
+
 		man.setGui(this);
 	}
-	
+
 	public static void main(String[] args) {
-		
+
 		man = new Manager();
 		System.out.println("after launch");
 		Thread t = new Thread(new Runnable() {
-			
+
 			@Override
 			public void run() {
-				
+
 				try {
 					Thread.sleep(2000);
-					
+
 					System.out.println("Testing");
 					while (true) {
-						Thread.sleep(20);
+						Thread.sleep(10);
 
-//						Signal sig1 = new Signal();
-//						Signal sig2 = new Signal();
-//						Signal sig3 = new Signal();
+						// Signal sig1 = new Signal();
+						// Signal sig2 = new Signal();
+						// Signal sig3 = new Signal();
 
-//						sig1.setValue((int) (Math.random() * 100));
-//						sig2.setValue((int) (Math.random() * 100));
-//						sig3.setValue((int) (Math.random() * 100));
+						// sig1.setValue((int) (Math.random() * 100));
+						// sig2.setValue((int) (Math.random() * 100));
+						// sig3.setValue((int) (Math.random() * 100));
 
-						man.notifySignal((int) (Math.random() * 100), (int) (Math.random() * 100), (int) (Math.random() * 100));
+						man.notifySignal((int) (Math.random() * 100),
+								(int) (Math.random() * 100),
+								(int) (Math.random() * 100));
 
 					}
-					
+
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				
+
 			}
 		});
-		
-//		t.start();
-		
+
+//		 t.start();
+
 		launch(args);
-		
-//		t.interrupt();
-		
+
+//		 t.interrupt();
+
 	}
-
-
 
 	public void notify(final Signal sig1, final Signal sig2, final Signal sig3) {
 
 		Platform.runLater(new Runnable() {
-			
+
 			@Override
 			public void run() {
-				
+
 				drawSignals(sig1, sig2, sig3);
-				
+
 			}
 
 		});
-		
+
 	}
-	
-	private void drawSignals(final Signal sig1,final Signal sig2,final Signal sig3) {
 
-		Platform.runLater(new Runnable() {
-			
-			@Override
-			public void run() {
-				
-				if (i >= CHARTRATE) {
-					
-					sensor1Series.getData().clear();
-					sensor2Series.getData().clear();
-					sensor3Series.getData().clear();
-					
-					i = 0;
-				}
-				
-				sensor1Series.getData().add(new XYChart.Data<Number, Number>(i, sig1.getValue()));
-				sensor2Series.getData().add(new XYChart.Data<Number, Number>(i, sig2.getValue()));
-				sensor3Series.getData().add(new XYChart.Data<Number, Number>(i, sig3.getValue()));
-				i++;
-			}
-		});
-		
+	private void drawSignals(final Signal sig1, final Signal sig2,
+			final Signal sig3) {
+
+		if (i >= CHARTRATE) {
+
+			sensor1Series.getData().clear();
+			sensor2Series.getData().clear();
+			sensor3Series.getData().clear();
+
+			i = 0;
+		}
+
+		sensor1Series.getData().add(
+				new XYChart.Data<Number, Number>(i, sig1.getValue()));
+		sensor2Series.getData().add(
+				new XYChart.Data<Number, Number>(i, sig2.getValue()));
+		sensor3Series.getData().add(
+				new XYChart.Data<Number, Number>(i, sig3.getValue()));
+		i++;
+
 	}
 
 	public Gesture getCurrentGesture() {
-		return currentGesture ;
+		return currentGesture;
 	}
-	
-	public void showClassifiedGesture(final Gesture gesture){
-		
+
+	public void showClassifiedGesture(final Gesture gesture) {
+
 		Platform.runLater(new Runnable() {
-			
+
 			@Override
 			public void run() {
 
 				switch (gesture) {
-				case DOWN: tgGesture.selectToggle(gestureDownButton);
+				case DOWN:
+					tgGesture.selectToggle(gestureDownButton);
 					break;
-				case ENTER: tgGesture.selectToggle(gestureEnterButton);
+				case ENTER:
+					tgGesture.selectToggle(gestureEnterButton);
 					break;
-				case LEFT: tgGesture.selectToggle(gestureLeftButton);
+				case LEFT:
+					tgGesture.selectToggle(gestureLeftButton);
 					break;
-				case RIGHT: tgGesture.selectToggle(gestureRightButton);
+				case RIGHT:
+					tgGesture.selectToggle(gestureRightButton);
 					break;
-				case UNDEFINED: tgGesture.selectToggle(gestureBackButton);
+				case UNDEFINED:
+					tgGesture.selectToggle(gestureBackButton);
 					break;
-				case UP: tgGesture.selectToggle(gestureUpButton);
+				case UP:
+					tgGesture.selectToggle(gestureUpButton);
 					break;
 
 				default:
