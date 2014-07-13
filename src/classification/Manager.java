@@ -7,6 +7,7 @@ import classification.SignalReader.ObservableSignalListener;
 import data.Sample;
 import data.Signal;
 
+
 public class Manager implements ObservableSignalListener,
 		ObservableSampleListener {
 
@@ -52,6 +53,15 @@ public class Manager implements ObservableSignalListener,
 	/**
 	 * manager will be notified by SampleRecognizer if she recognized a sample
 	 * */
+	public void notifyManager(Signal sig1, Signal sig2, Signal sig3) {
+		System.out.println("sig1 " + sig1.getValue());
+		System.out.println("sig2 " + sig2.getValue());
+		System.out.println("sig3 " + sig3.getValue());
+		
+		gui.notify(sig1, sig2, sig3);
+		
+	}
+
 	@Override
 	public void notifySample(Sample s) {
 
@@ -61,13 +71,13 @@ public class Manager implements ObservableSignalListener,
 		} else if (mode == Mode.TRAINING) {
 			// forward Sample to Trainer
 			// TODO
-			Gesture currentGesture = Gesture.DOWN;
+			Gesture currentGesture = gui.getCurrentGesture();
 			trainer.addSample(s, currentGesture);
 
 		} else if (mode == Mode.CLASSIFYING) {
 			// forward Sample to Classifier
 			Gesture g = classifier.classifySample(s);
-
+			gui.showClassifiedGesture(g);
 			// TODO notify gui, invoke actoin etc.
 		}
 
@@ -85,6 +95,10 @@ public class Manager implements ObservableSignalListener,
 
 	public void changeToIdleMode() {
 		mode = Mode.IDLE;
+	}
+	
+	public void changeToRecordMode(){
+		mode = Mode.RECORDING;
 	}
 
 }

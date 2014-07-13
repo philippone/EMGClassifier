@@ -4,7 +4,9 @@ public enum Gesture {
 	UP 		(1),
 	DOWN 	(2),
 	LEFT 	(3),
-	RIGHT	(4);
+	RIGHT	(4),
+	ENTER (5),
+	UNDEFINED (6);
 
 	
 	private final double value;
@@ -14,10 +16,12 @@ public enum Gesture {
 		value = d;
 	}
 	
+	public double getValue(){
+		return value;
+	}
 	
 	public static Gesture labelToGesture(double v) {
-		// TODO Auto-generated method stub
-		return null;
+		return Gesture.values()[(int)v - 1];
 	}
 
 }
