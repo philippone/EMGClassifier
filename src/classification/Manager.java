@@ -71,13 +71,13 @@ public class Manager implements ObservableSignalListener,
 		} else if (mode == Mode.TRAINING) {
 			// forward Sample to Trainer
 			// TODO
-			Gesture currentGesture = Gesture.DOWN;
+			Gesture currentGesture = gui.getCurrentGesture();
 			trainer.addSample(s, currentGesture);
 
 		} else if (mode == Mode.CLASSIFYING) {
 			// forward Sample to Classifier
 			Gesture g = classifier.classifySample(s);
-
+			gui.showClassifiedGesture(g);
 			// TODO notify gui, invoke actoin etc.
 		}
 
@@ -95,6 +95,10 @@ public class Manager implements ObservableSignalListener,
 
 	public void changeToIdleMode() {
 		mode = Mode.IDLE;
+	}
+	
+	public void changeToRecordMode(){
+		mode = Mode.RECORDING;
 	}
 
 }
