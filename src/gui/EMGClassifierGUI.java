@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.Button;
 
 import classification.Gesture;
 import classification.Manager;
@@ -10,6 +9,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -18,6 +18,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
+import javafx.scene.control.Button;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -74,6 +75,8 @@ public class EMGClassifierGUI extends Application {
 		sensor1.setTitle("Sensor 1 Input");
 		sensor1.setAnimated(false);
 		sensor1.setCreateSymbols(false);
+		sensor1.getStylesheets().add(".chart-series-line {" + "    -fx-stroke-width: 2px;"
+				+ "}");
 		((NumberAxis) sensor1.getXAxis()).setUpperBound(CHARTRATE);
 		((NumberAxis) sensor1.getYAxis()).setUpperBound(CHART_MAXVALUE);
 		((NumberAxis) sensor1.getXAxis()).setAutoRanging(false);
@@ -93,6 +96,7 @@ public class EMGClassifierGUI extends Application {
 		((NumberAxis) sensor3.getXAxis()).setUpperBound(CHARTRATE);
 		((NumberAxis) sensor3.getYAxis()).setUpperBound(CHART_MAXVALUE);
 		((NumberAxis) sensor3.getXAxis()).setAutoRanging(false);
+
 		((NumberAxis) sensor3.getYAxis()).setAutoRanging(false);
 
 		sensor1Series = new Series<Number, Number>();
@@ -254,6 +258,15 @@ public class EMGClassifierGUI extends Application {
 
 					}
 				});
+		
+		Button manualDetectionButton = new Button("Detection");
+		manualDetectionButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
+
+			@Override
+			public void handle(Event arg0) {
+				man.setDetection();
+			}
+		});
 
 		root.addColumn(0, sensor1, sensor2, sensor3);
 		root.addColumn(1, modeBox, gestureBox);
@@ -281,7 +294,8 @@ public class EMGClassifierGUI extends Application {
 
 					System.out.println("Testing");
 					while (true) {
-						Thread.sleep(2);
+
+						Thread.sleep(15);
 
 						// Signal sig1 = new Signal();
 						// Signal sig2 = new Signal();
@@ -291,9 +305,9 @@ public class EMGClassifierGUI extends Application {
 						// sig2.setValue((int) (Math.random() * 100));
 						// sig3.setValue((int) (Math.random() * 100));
 
-						man.notifySignal((int) (Math.random() * 100),
-								(int) (Math.random() * 100),
-								(int) (Math.random() * 100));
+						man.notifySignal((int) (Math.random() * 1023),
+								(int) (Math.random() * 1023),
+								(int) (Math.random() * 1023));
 
 					}
 
@@ -304,11 +318,11 @@ public class EMGClassifierGUI extends Application {
 			}
 		});
 
-//		 t.start();
+		t.start();
 
 		launch(args);
 
-//		 t.interrupt();
+		t.interrupt();
 
 	}
 

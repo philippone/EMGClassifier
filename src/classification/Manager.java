@@ -44,6 +44,7 @@ public class Manager implements ObservableSignalListener,
 		 System.out.println("sig3 " + sig[2]);
 
 		// notify gui
+		
 		gui.notify(new Signal(sig[0]), new Signal(sig[1]), new Signal(sig[2]));
 
 		// forward Signals to SampleRecognizer
@@ -104,5 +105,10 @@ public class Manager implements ObservableSignalListener,
 	public void changeToRecordMode() {
 		mode = Mode.RECORDING;
 	}
+
+	public void setDetection() {
+		sampleRecog.setDetection();
+	}
+
 
 }
