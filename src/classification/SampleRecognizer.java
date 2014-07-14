@@ -6,9 +6,10 @@ import data.Sample;
 
 public class SampleRecognizer {
 
-	int recordTime = 400;
-	boolean recording = false;
-	long startRecTime = 0;
+	private int recordTime = 400;
+	private boolean recording = false;
+	private long startRecTime = 0;
+	ArrayList<ArrayList<Integer>> sample = null;
 
 	public interface ObservableSampleListener {
 		public void notifySample(Sample s);
@@ -21,7 +22,6 @@ public class SampleRecognizer {
 	}
 
 	public void recognizeSample(int... sig) {
-		ArrayList<ArrayList<Integer>> sample = null;
 
 		if (!recording) {
 			// detect sample
@@ -63,12 +63,20 @@ public class SampleRecognizer {
 	 */
 	private boolean detect(int... sig) {
 		// if all signals > 0
-		return false;
+
+		
 //		for (int i = 0; i < sig.length; i++) {
 //			if (sig[i] <= 0)
 //				return false;
 //		}
-//		return true;
+		return false;
+	}
+
+	public void setDetection() {
+		recording = true;
+		startRecTime = System.currentTimeMillis();
+
+		sample = new ArrayList<ArrayList<Integer>>();
 	}
 
 }
