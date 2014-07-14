@@ -179,12 +179,12 @@ public class SignalReader implements SerialPortEventListener {
 
 
 	private void convertSignal(String inputLine) {
-		System.out.println("convert: " +  inputLine + " (end)");
+//		System.out.println("convert: " +  inputLine + " (end)");
 		inputLine.trim();
 		String[] values = inputLine.split(",");
 		
-		System.out.println("valued: " + values[0] + ", " 
-			+ values[1] + ", " + values[2]);
+//		System.out.println("valued: " + values[0] + ", " 
+//			+ values[1] + ", " + values[2]);
 		
 		try {
 			sig1.setValue(Integer.parseInt(values[0].trim()));
@@ -196,7 +196,7 @@ public class SignalReader implements SerialPortEventListener {
 		
 		
 		
-		System.out.println("notify");
+//		System.out.println("notify");
 
 		manager.notifySignal(sig1.getValue(), sig2.getValue(), sig3.getValue());
 

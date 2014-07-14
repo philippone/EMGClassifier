@@ -40,18 +40,22 @@ public class SampleRecognizer {
 
 			}
 		} else {
+			System.out.println("recording");
 			// record x-ms and send back to manager
 			if (System.currentTimeMillis() - startRecTime < recordTime) {
 				for (int i = 0; i < sig.length; i++) {
 					sample.get(i).add(sig[i]);
+					//System.out.println("add to sample " + i + ": " + sig[i]);
 				}
 
 			} else {
+				System.out.println("stop recording");
 				// stop recording
 				recording = false;
 
 				// notify manager
 				manager.notifySample(new Sample(sample));
+				System.out.println("notify Sample");
 				sample = null;
 			}
 
@@ -81,6 +85,10 @@ public class SampleRecognizer {
 		startRecTime = System.currentTimeMillis();
 
 		sample = new ArrayList<ArrayList<Integer>>();
+		for (int i = 0; i < 3; i++) {
+			ArrayList<Integer> sensor = new ArrayList<Integer>();
+			sample.add(sensor);
+		}
 	}
 
 }

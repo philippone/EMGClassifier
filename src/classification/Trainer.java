@@ -25,6 +25,7 @@ public class Trainer {
 
 	
 	public void addSample(Sample s, Gesture g) {
+		System.out.println("Trainer: add sample");
 		// extract features
 		LabeledFeatureVector lfv = convertSample(s,g);
 		// add to training set

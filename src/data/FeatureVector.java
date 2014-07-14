@@ -22,6 +22,7 @@ public class FeatureVector {
 	}
 
 	public void add(FeatureVector fv) {
+		System.out.println("add Feature vector");
 		features = concat(this.features, fv.getFeatures());
 	}
 
