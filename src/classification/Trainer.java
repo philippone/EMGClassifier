@@ -29,6 +29,8 @@ public class Trainer {
 		LabeledFeatureVector lfv = convertSample(s,g);
 		// add to training set
 		lfvList.add(lfv);
+		
+		System.out.println("TrainVector " + lfv.toString());
 	}
 	
 	private LabeledFeatureVector convertSample(Sample s, Gesture g) {

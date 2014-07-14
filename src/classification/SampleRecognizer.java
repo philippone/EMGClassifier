@@ -18,6 +18,7 @@ public class SampleRecognizer {
 
 	public SampleRecognizer(Manager m) {
 		manager = m;
+		variances = new ArrayList<Double>();
 	}
 
 	public void recognizeSample(int... sig) {
@@ -58,6 +59,9 @@ public class SampleRecognizer {
 
 	}
 
+	
+	private ArrayList<Double> variances;
+	
 	/*
 	 * detect sample if all signals bigger than 0
 	 */

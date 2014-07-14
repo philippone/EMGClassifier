@@ -11,7 +11,6 @@ public enum Gesture {
 	
 	private final double value;
 	
-	
 	Gesture(double d) {
 		value = d;
 	}
