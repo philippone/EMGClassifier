@@ -39,9 +39,9 @@ public class Manager implements ObservableSignalListener,
 	 * */
 	@Override
 	public void notifySignal(int... sig) {
-		System.out.println("sig1 " + sig[0]);
-		System.out.println("sig2 " + sig[1]);
-		System.out.println("sig3 " + sig[2]);
+		 System.out.println("sig1 " + sig[0]);
+		 System.out.println("sig2 " + sig[1]);
+		 System.out.println("sig3 " + sig[2]);
 
 		// notify gui
 		
@@ -59,12 +59,12 @@ public class Manager implements ObservableSignalListener,
 		// System.out.println("sig2 " + sig2.getValue());
 		// System.out.println("sig3 " + sig3.getValue());
 
-		long t = System.currentTimeMillis();
+		// long t = System.currentTimeMillis();
 		//
-		if ( t - time > 15) {
-			time  = System.currentTimeMillis();
-			gui.notify(sig1, sig2, sig3);
-		}
+		// if ( t - time > 15) {
+		// time = System.currentTimeMillis();
+		gui.notify(sig1, sig2, sig3);
+		// }
 	}
 
 	@Override

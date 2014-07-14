@@ -134,7 +134,7 @@ public class SignalReader implements SerialPortEventListener {
 	/**
 	 * Handle an event on the serial port. Read the data and print it.
 	 */
-	public synchronized void serialEvent(SerialPortEvent oEvent) {
+	public  void serialEvent(SerialPortEvent oEvent) {
 
 		switch (oEvent.getEventType()) {
 		case SerialPortEvent.BI:
@@ -152,9 +152,12 @@ public class SignalReader implements SerialPortEventListener {
 			try {
 				while (inputStream.available() > 0) {
 					int numBytes = inputStream.read(readBuffer);
+					String s = new String(readBuffer);
+//					System.out.print(s);
+					convertSignal(s);
 				}
-				convertSignal(new String(readBuffer));
-				// System.out.print(new String(readBuffer));
+				
+				 
 			} catch (IOException e) {
 				System.out.println(e);
 			}
@@ -174,23 +177,28 @@ public class SignalReader implements SerialPortEventListener {
 		// ones.
 	}
 
-	private void convertSignal(byte[] readBuffer) {
-		// TODO Auto-generated method stub
-
-	}
 
 	private void convertSignal(String inputLine) {
-//		inputLine.trim();
+		System.out.println("convert: " +  inputLine + " (end)");
+		inputLine.trim();
 		String[] values = inputLine.split(",");
-
-		sig1.setValue(Integer.parseInt(values[0]));
-		sig2.setValue(Integer.parseInt(values[1]));
-		sig3.setValue(Integer.parseInt(values[2]));
+		
+		System.out.println("valued: " + values[0] + ", " 
+			+ values[1] + ", " + values[2]);
+		
+		try {
+			sig1.setValue(Integer.parseInt(values[0].trim()));
+			sig2.setValue(Integer.parseInt(values[1].trim()));
+			sig3.setValue(Integer.parseInt(values[2].trim()));
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		
+		
+		System.out.println("notify");
 
 		manager.notifySignal(sig1.getValue(), sig2.getValue(), sig3.getValue());
-
-		// manager.notifySignal(Integer.valueOf(values[0]),
-		// Integer.valueOf(values[1]), Integer.valueOf(values[2]));
 
 	}
 
