@@ -4,7 +4,8 @@ public enum Mode {
 	
 	IDLE,
 	TRAINING,
-	CLASSIFYING;
+	CLASSIFYING,
+	RECORDING;
 	
 
 }

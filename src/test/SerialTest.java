@@ -1,11 +1,15 @@
 package test;
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+
 import gnu.io.CommPortIdentifier; 
 import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent; 
 import gnu.io.SerialPortEventListener; 
+
 import java.util.Enumeration;
 
 
@@ -29,6 +33,8 @@ public class SerialTest implements SerialPortEventListener {
 	private BufferedReader input;
 	/** The output stream to the port */
 	private OutputStream output;
+	private InputStream inputStream;
+	private static int i;
 	/** Milliseconds to block while waiting for port open */
 	private static final int TIME_OUT = 2000;
 	/** Default bits per second for COM port. */
@@ -75,6 +81,8 @@ public class SerialTest implements SerialPortEventListener {
 			// add event listeners
 			serialPort.addEventListener(this);
 			serialPort.notifyOnDataAvailable(true);
+			
+			inputStream = serialPort.getInputStream();
 		} catch (Exception e) {
 			System.err.println(e.toString());
 		}
@@ -94,19 +102,49 @@ public class SerialTest implements SerialPortEventListener {
 	/**
 	 * Handle an event on the serial port. Read the data and print it.
 	 */
-	public synchronized void serialEvent(SerialPortEvent oEvent) {
-		if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
-			try {
-				String inputLine=input.readLine();
-				System.out.println(inputLine);
-			} catch (Exception e) {
-				System.err.println(e.toString());
-			}
-		}
-		// Ignore all the other eventTypes, but you should consider the other ones.
+	public void serialEvent(SerialPortEvent oEvent) {
+		 switch(oEvent.getEventType()) {
+         case SerialPortEvent.BI:
+         case SerialPortEvent.OE:
+         case SerialPortEvent.FE:
+         case SerialPortEvent.PE:
+         case SerialPortEvent.CD:
+         case SerialPortEvent.CTS:
+         case SerialPortEvent.DSR:
+         case SerialPortEvent.RI:
+         case SerialPortEvent.OUTPUT_BUFFER_EMPTY:
+             break;
+         case SerialPortEvent.DATA_AVAILABLE:
+             byte[] readBuffer = new byte[20];
+             try {
+                 while (inputStream.available() > 0) {
+                     int numBytes = inputStream.read(readBuffer);
+                 }
+                 System.out.print(new String(readBuffer));
+             } catch (IOException e) {
+                 System.out.println(e);
+             }
+             break;
+     }
+		
+		
+//		
+//		System.out.println();
+//		if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
+//			
+//			try {
+//				String inputLine=input.readLine();
+//				System.out.println(inputLine);
+////				Thread.sleep(200);
+//			} catch (Exception e) {
+//				System.err.println(e.toString());
+//			}
+//		}
+//		// Ignore all the other eventTypes, but you should consider the other ones.
 	}
 
 	public static void main(String[] args) throws Exception {
+		
 		SerialTest main = new SerialTest();
 		main.initialize();
 		Thread t=new Thread() {

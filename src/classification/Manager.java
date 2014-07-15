@@ -17,6 +17,7 @@ public class Manager implements ObservableSignalListener,
 
 	EMGClassifierGUI gui;
 	private Classifier classifier;
+	private long time = 0;
 
 	public void setGui(EMGClassifierGUI gui) {
 		this.gui = gui;
@@ -38,11 +39,12 @@ public class Manager implements ObservableSignalListener,
 	 * */
 	@Override
 	public void notifySignal(int... sig) {
-		System.out.println("sig1 " + sig[0]);
-		System.out.println("sig2 " + sig[1]);
-		System.out.println("sig3 " + sig[2]);
+//		 System.out.println("sig1 " + sig[0]);
+//		 System.out.println("sig2 " + sig[1]);
+//		 System.out.println("sig3 " + sig[2]);
 
 		// notify gui
+		
 		gui.notify(new Signal(sig[0]), new Signal(sig[1]), new Signal(sig[2]));
 
 		// forward Signals to SampleRecognizer
@@ -52,24 +54,40 @@ public class Manager implements ObservableSignalListener,
 	/**
 	 * manager will be notified by SampleRecognizer if she recognized a sample
 	 * */
+	public void notifyManager(Signal sig1, Signal sig2, Signal sig3) {
+		// System.out.println("sig1 " + sig1.getValue());
+		// System.out.println("sig2 " + sig2.getValue());
+		// System.out.println("sig3 " + sig3.getValue());
+
+		// long t = System.currentTimeMillis();
+		//
+		// if ( t - time > 15) {
+		// time = System.currentTimeMillis();
+		gui.notify(sig1, sig2, sig3);
+		// }
+	}
+
 	@Override
 	public void notifySample(Sample s) {
 
 		if (mode == Mode.IDLE) {
-			//TODO
+			System.out.println("Idle Sample");
+			// TODO
 
 		} else if (mode == Mode.TRAINING) {
+			System.out.println("add Training Sample");
 			// forward Sample to Trainer
-			// TODO
-			Gesture currentGesture = Gesture.DOWN;
+			Gesture currentGesture = gui.getCurrentGesture();
 			trainer.addSample(s, currentGesture);
 
 		} else if (mode == Mode.CLASSIFYING) {
+			System.out.println("add sample to classify");
 			// forward Sample to Classifier
 			Gesture g = classifier.classifySample(s);
-
+			gui.showClassifiedGesture(g);
 			// TODO notify gui, invoke actoin etc.
 		}
+		System.out.println("ajfslkdfj");
 
 	}
 
@@ -86,5 +104,14 @@ public class Manager implements ObservableSignalListener,
 	public void changeToIdleMode() {
 		mode = Mode.IDLE;
 	}
+
+	public void changeToRecordMode() {
+		mode = Mode.RECORDING;
+	}
+
+	public void setDetection() {
+		sampleRecog.setDetection();
+	}
+
 
 }
