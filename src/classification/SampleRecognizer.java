@@ -33,7 +33,7 @@ public class SampleRecognizer {
 
 				sample = new ArrayList<ArrayList<Integer>>();
 				for (int i = 0; i < sig.length; i++) {
-					ArrayList<Integer> sensor = new ArrayList<>();
+					ArrayList<Integer> sensor = new ArrayList<Integer>();
 					sample.add(sensor);
 				}
 
@@ -63,6 +63,11 @@ public class SampleRecognizer {
 	 */
 	private boolean detect(int... sig) {
 		// if all signals > 0
+		
+		
+		
+		// Bonato - Method
+		
 		for (int i = 0; i < sig.length; i++) {
 			if (sig[i] <= 0)
 				return false;
