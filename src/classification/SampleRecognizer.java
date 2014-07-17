@@ -40,7 +40,7 @@ public class SampleRecognizer {
 
 			}
 		} else {
-			System.out.println("recording");
+//			System.out.println("recording");
 			// record x-ms and send back to manager
 			if (System.currentTimeMillis() - startRecTime < recordTime) {
 				for (int i = 0; i < sig.length; i++) {
@@ -49,13 +49,13 @@ public class SampleRecognizer {
 				}
 
 			} else {
-				System.out.println("stop recording");
+//				System.out.println("stop recording");
 				// stop recording
 				recording = false;
 
 				// notify manager
 				manager.notifySample(new Sample(sample));
-				System.out.println("notify Sample");
+//				System.out.println("notify Sample");
 				sample = null;
 			}
 

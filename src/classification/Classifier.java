@@ -50,18 +50,19 @@ public class Classifier {
 		}
 
 		// TODO
-		int totalClasses = 6;
+		int totalClasses = 2;
 		
 		int[] labels = new int[totalClasses];
 		svm.svm_get_labels(model, labels);
 
 		double[] prob_estimates = new double[totalClasses];
+		double v1 = svm.svm_predict(model, nodes);
 		double v = svm.svm_predict_probability(model, nodes, prob_estimates);
 
 		for (int i = 0; i < totalClasses; i++) {
 			System.out.print("(" + labels[i] + ":" + prob_estimates[i] + ")");
 		}
-		System.out.println("(Actual:" + features[0] + " Prediction:" + v + ")");
+		System.out.println("(Actual:" + features[0] + " Prediction:" + v + ", " + v1 + ")");
 
 		return Gesture.labelToGesture(v);
 	}
