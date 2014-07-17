@@ -2,12 +2,7 @@ package test;
 
 import java.util.LinkedList;
 
-import persistence.DataReaderWriter;
-import sun.util.locale.BaseLocale;
 import data.Baseline;
-import data.FeatureVector;
-import data.LabeledFeatureVector;
-import data.TrainData;
 
 public class Testing {
 	
