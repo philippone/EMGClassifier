@@ -1,7 +1,10 @@
 package test;
 
 import java.util.LinkedList;
+import java.util.Random;
 
+import classification.Manager;
+import classification.SampleRecognizer;
 import persistence.DataReaderWriter;
 import sun.util.locale.BaseLocale;
 import data.Baseline;
@@ -37,7 +40,7 @@ public class Testing {
 //		String[] split = q.split(" ");
 //		System.out.println(split.length + "");
 		
-		LinkedList<Integer> que = new LinkedList<Integer>();
+//		LinkedList<Integer> que = new LinkedList<Integer>();
 		
 //		que.add(5);
 //		que.add(3);
@@ -53,18 +56,29 @@ public class Testing {
 //		
 //		
 		
-		Baseline b = new Baseline(3, 5);
-		for (int i = 0; i < 5; i++) {
-			b.update(5,5,5);
+//		Baseline b = new Baseline(3, 5);
+//		for (int i = 0; i < 5; i++) {
+//			b.update(5,5,5);
+//		}
+//		
+//		System.out.println(b.getAvg()[0]);
+//		System.out.println(b.getVar()[0]);
+//		
+//		b.update(2,2,8);
+//		
+//		System.out.println(b.getAvg()[0]);
+//		System.out.println(b.getVar()[0]);
+		
+		
+		SampleRecognizer sr = new SampleRecognizer(null);
+		Random r = new Random();
+		
+		for (int i = 0; i < 1000; i++) {
+			double sig = r.nextGaussian();
+			int sig1 = (int)(sig * 1023);
+			sr.recognizeSample(sig1,sig1,sig1);
 		}
 		
-		System.out.println(b.getAvg()[0]);
-		System.out.println(b.getVar()[0]);
-		
-		b.update(2,2,8);
-		
-		System.out.println(b.getAvg()[0]);
-		System.out.println(b.getVar()[0]);
 	}
 	
 	
