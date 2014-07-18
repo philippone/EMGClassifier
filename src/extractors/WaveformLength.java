@@ -26,8 +26,8 @@ public class WaveformLength implements SingleFeatureExtractor {
 			l += Math.abs(signal[i] - signal[i - 1]);
 		}
 
-		// TODO scale
-		return l;
+		// scale: divide by siglal length * maximalAmplitude(1024)
+		return l /= (signal.length * 1024);
 	}
 
 }
