@@ -29,9 +29,10 @@ public class WillsonAmplitude implements SingleFeatureExtractor {
 				sum += 1;
 		}
 
-		// TODO scale sum
-
-		return sum;
+		// scale sum
+		double scale = signal.length / 2;
+		
+		return sum /= scale ;
 	}
 
 }

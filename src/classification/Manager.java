@@ -75,7 +75,7 @@ public class Manager implements ObservableSignalListener,
 			// TODO
 
 		} else if (mode == Mode.TRAINING) {
-			System.out.println("add Training Sample");
+//			System.out.println("add Training Sample");
 			// forward Sample to Trainer
 			Gesture currentGesture = gui.getCurrentGesture();
 			trainer.addSample(s, currentGesture);
