@@ -1,6 +1,8 @@
 package gui;
 
 
+import java.util.LinkedList;
+
 import classification.Gesture;
 import classification.Manager;
 import javafx.application.Application;
@@ -276,7 +278,7 @@ public class EMGClassifierGUI extends Application {
 
 		arg0.setScene(scene);
 		arg0.show();
-
+		
 		man.setGui(this);
 	}
 
@@ -322,9 +324,12 @@ public class EMGClassifierGUI extends Application {
 
 		launch(args);
 
+		System.exit(0);
+		
 		t.interrupt();
 
 	}
+	
 
 	public void notify(final Signal sig1, final Signal sig2, final Signal sig3) {
 
