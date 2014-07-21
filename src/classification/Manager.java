@@ -39,9 +39,9 @@ public class Manager implements ObservableSignalListener,
 	 * */
 	@Override
 	public void notifySignal(int... sig) {
-		 System.out.println("sig1 " + sig[0]);
-		 System.out.println("sig2 " + sig[1]);
-		 System.out.println("sig3 " + sig[2]);
+//		 System.out.println("sig1 " + sig[0]);
+//		 System.out.println("sig2 " + sig[1]);
+//		 System.out.println("sig3 " + sig[2]);
 
 		// notify gui
 		
@@ -71,20 +71,23 @@ public class Manager implements ObservableSignalListener,
 	public void notifySample(Sample s) {
 
 		if (mode == Mode.IDLE) {
+			System.out.println("Idle Sample");
 			// TODO
 
 		} else if (mode == Mode.TRAINING) {
+//			System.out.println("add Training Sample");
 			// forward Sample to Trainer
-			// TODO
 			Gesture currentGesture = gui.getCurrentGesture();
 			trainer.addSample(s, currentGesture);
 
 		} else if (mode == Mode.CLASSIFYING) {
+			System.out.println("add sample to classify");
 			// forward Sample to Classifier
 			Gesture g = classifier.classifySample(s);
 			gui.showClassifiedGesture(g);
 			// TODO notify gui, invoke actoin etc.
 		}
+		System.out.println("ajfslkdfj");
 
 	}
 

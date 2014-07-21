@@ -271,7 +271,7 @@ public class EMGClassifierGUI extends Application {
 		});
 
 		root.addColumn(0, sensor1, sensor2, sensor3);
-		root.addColumn(1, modeBox, gestureBox);
+		root.addColumn(1, modeBox, gestureBox, manualDetectionButton);
 
 		GridPane.setMargin(modeBox, new Insets(5));
 		GridPane.setMargin(gestureBox, new Insets(5));
@@ -320,13 +320,14 @@ public class EMGClassifierGUI extends Application {
 			}
 		});
 
-		t.start();
+//		t.start();
 
 		launch(args);
 
 		System.exit(0);
 		
-		t.interrupt();
+//		t.interrupt();
+
 
 	}
 	
@@ -338,7 +339,7 @@ public class EMGClassifierGUI extends Application {
 			@Override
 			public void run() {
 
-				drawSignals(sig1, sig2, sig3);
+//				drawSignals(sig1, sig2, sig3);
 
 			}
 

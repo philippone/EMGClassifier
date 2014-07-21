@@ -19,31 +19,32 @@ public class MeanAbsoluteValueSlope implements SingleFeatureExtractor {
 		return fv;
 	}
 
-	private FeatureVector computeMAVSLP(int[] signal) {
- 		
+	private double computeMAVSLP(int[] signal) {
+
 		int segSize = (int) Math.floor(signal.length / segments);
-		
+
 		double mavslp = 0;
-		
+
 		for (int i = 0; i < segments - 1; i++) {
-			
+
 			for (int j = 0; j < signal.length; j++) {
-				int a_start = (i+1) * segSize;
-				int a_end = (i+2) * segSize;
-				
+				int a_start = (i + 1) * segSize;
+				int a_end = (i + 2) * segSize;
+
 				int b_start = i * segSize;
-				int b_end = (i+1) * segSize;
-				
+				int b_end = (i + 1) * segSize;
+
 				double a = computeMAV(subSignal(signal, a_start, a_end));
 				double b = computeMAV(subSignal(signal, b_start, a_end));
-				
-				
+
 				// TODO each value is a feature??
-				mavslp += a - b;
+				// kann schief gehen wenn signale unterschiedlich lang und somit
+				// unterschiedlich viele segmente
+				mavslp += (a - b);
 			}
 		}
-		
-		return null;
+
+		return mavslp;
 	}
 
 	private double computeMAV(int[] signal) {
@@ -51,7 +52,13 @@ public class MeanAbsoluteValueSlope implements SingleFeatureExtractor {
 		for (int i : signal) {
 			avg += i;
 		}
-		return avg / signal.length;
+
+		avg /= signal.length;
+
+		// scale
+		double scale = 1024 * signal.length;
+
+		return avg /= scale;
 	}
 
 	/*
@@ -59,11 +66,11 @@ public class MeanAbsoluteValueSlope implements SingleFeatureExtractor {
 	 */
 	private int[] subSignal(int[] signal, int start, int end) {
 		int[] subsig = new int[end - start + 1];
-		
+
 		for (int i = 0; i < subsig.length; i++) {
-			subsig[i] = signal[start+i];
+			subsig[i] = signal[start + i];
 		}
-		
+
 		return subsig;
 	}
 

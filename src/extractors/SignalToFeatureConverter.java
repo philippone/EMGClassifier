@@ -27,15 +27,29 @@ public class SignalToFeatureConverter {
 		//WAMP
 		WillsonAmplitude wamp = new WillsonAmplitude();
 		extractors.add(wamp);
+		
+		//Varaince
+		Variance v = new Variance();
+		extractors.add(v);
+		
+		//WaveformLength
+		WaveformLength wfl = new WaveformLength();
+		extractors.add(wfl);
+		
+		// SlopeSignChanges
+		SlopeSignChanges ssc = new SlopeSignChanges();
+		extractors.add(ssc);
 	}
 
 	public FeatureVector convert(Sample sample) {
+//		System.out.println("Converter convert");
 		
 		FeatureVector fv = new FeatureVector();
 		
 		
 		// ruft alle extractor auf und erstellt den kompletten FeatureVecotr
 		for (int i = 0; i < extractors.size(); i++) {
+//			System.out.println("converter execute all extractors");
 			SingleFeatureExtractor ex = extractors.get(i);
 			fv.add(ex.extract(sample));
 		}

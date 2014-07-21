@@ -1,6 +1,7 @@
 package data;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Sample {
 
@@ -16,12 +17,12 @@ public class Sample {
 		size = length;
 	}
 
-	public Sample(ArrayList<ArrayList<Integer>> sample) {
-		int[][] signals = new int[sample.size()][];
+	public Sample(ArrayList<LinkedList<Integer>> sample) {
+		signals = new int[sample.size()][];
 
-		for (int i = 0; i < signals.length; i++) {
+		for (int i = 0; i < sample.size(); i++) {
 
-			ArrayList<Integer> sig = sample.get(i);
+			LinkedList<Integer> sig = sample.get(i);
 
 			signals[i] = new int[sig.size()];
 

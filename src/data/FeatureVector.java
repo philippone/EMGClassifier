@@ -2,9 +2,11 @@ package data;
 
 import java.util.Arrays;
 
+import classification.Gesture;
+
 public class FeatureVector {
 
-	private double[] features;
+	protected double[] features;
 
 	public double[] getFeatures() {
 		return features;
@@ -20,11 +22,12 @@ public class FeatureVector {
 	}
 
 	public void add(FeatureVector fv) {
+//		System.out.println("add Feature vector");
 		features = concat(this.features, fv.getFeatures());
 	}
 
 	public void add(double... feature) {
-		features = concat(this.features, features);
+		features = concat(this.features, feature);
 
 	}
 
@@ -32,6 +35,20 @@ public class FeatureVector {
 		double[] result = Arrays.copyOf(first, first.length + second.length);
 		System.arraycopy(second, 0, result, first.length, second.length);
 		return result;
+	}
+	
+	@Override
+	public String toString() {
+		String s = "? : [ ";
+		for (int i = 0; i < features.length; i++) {
+			if (i < features.length - 1)
+				s += " " + features[i] + ", ";
+			else
+				s += " " + features[i];
+		}
+		s += " ]";
+
+		return s;
 	}
 
 }
