@@ -56,7 +56,7 @@ public class Trainer {
 			for (int j = 1; j < features.length; j++) {
 				svm_node node = new svm_node();
 				node.index = j;
-				node.value = features[j];
+				node.value = features[j-1];
 				prob.x[i][j - 1] = node;
 			}
 			prob.y[i] = lfvList.get(i).getLabel();
@@ -66,13 +66,68 @@ public class Trainer {
 		param.probability = 1;
 		param.gamma = 0.5;
 		param.nu = 0.5;
-		param.C = 1;
+		param.C = 0.8;
 		param.svm_type = svm_parameter.C_SVC;
 		param.kernel_type = svm_parameter.RBF;
 		param.cache_size = 20000;
 		param.eps = 0.001;
 
+		double[] target = new double[prob.l];
+		
+		svm.svm_cross_validation(prob, param, 10, target);
+		
+		for (int i = 0; i < target.length; i++) {
+			System.out.println("target " +  target[i]);
+		}
+		
+		
+		System.out.println("---------2---------");
+		param.gamma = 0.4;
+		param.C = 0.8;
+		svm.svm_cross_validation(prob, param, 10, target);
+		
+		for (int i = 0; i < target.length; i++) {
+			System.out.println("target " +  target[i]);
+		}
+		
+		
+		System.out.println("---------3---------");
+		param.gamma = 0.7;
+		param.C = 1.2;
+		svm.svm_cross_validation(prob, param, 10, target);
+		
+		for (int i = 0; i < target.length; i++) {
+			System.out.println("target " +  target[i]);
+		}
+		
+		
+		System.out.println("---------4---------");
+		param.gamma = 0.9;
+		param.C = 1.4;
+
+		svm.svm_cross_validation(prob, param, 10, target);
+		
+		for (int i = 0; i < target.length; i++) {
+			System.out.println("target " +  target[i]);
+		}
+		
+		System.out.println("---------5---------");
+		param.gamma = 0.8;
+		param.C = 1.4;
+
+		svm.svm_cross_validation(prob, param, 10, target);
+
+		
+		for (int i = 0; i < target.length; i++) {
+			System.out.println("target " +  target[i]);
+		}
+		
 		svm_model model = svm.svm_train(prob, param);
+		
+		
+//		for (int i = 0; i < model.label.length; i++) {
+//			System.out.println("model label " + i + " " + model.label[i]);
+//		}
 
 		return model;
 	}

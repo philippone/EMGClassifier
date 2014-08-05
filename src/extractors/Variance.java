@@ -30,10 +30,12 @@ public class Variance implements SingleFeatureExtractor {
 		// compute variance
 		double x = 0;
 		for (int i = 0; i < n; i++) {
-			x += signal[i] - avg; 
+			x += Math.pow(signal[i] - avg, 2); 
 		}
 		x /= n-1;
 
-		return x;
+		
+		// TODO scale
+		return x /= (1024 * 1024) ;
 	}
 }

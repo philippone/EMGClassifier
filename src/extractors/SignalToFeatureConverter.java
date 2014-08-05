@@ -39,6 +39,10 @@ public class SignalToFeatureConverter {
 		// SlopeSignChanges
 		SlopeSignChanges ssc = new SlopeSignChanges();
 		extractors.add(ssc);
+		
+		// SimpleSquareIntegral
+		SimpleSquareIntegral ssi = new SimpleSquareIntegral();
+		extractors.add(ssi);
 	}
 
 	public FeatureVector convert(Sample sample) {

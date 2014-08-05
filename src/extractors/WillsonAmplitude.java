@@ -6,7 +6,7 @@ import data.Sample;
 public class WillsonAmplitude implements SingleFeatureExtractor {
 
 	// TODO
-	private int threshold = 30;
+	private int threshold = 5; // 30 war nix
 
 	@Override
 	public FeatureVector extract(Sample sample) {

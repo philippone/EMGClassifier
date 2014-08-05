@@ -40,6 +40,7 @@ public class MeanAbsoluteValueSlope implements SingleFeatureExtractor {
 				// TODO each value is a feature??
 				// kann schief gehen wenn signale unterschiedlich lang und somit
 				// unterschiedlich viele segmente
+				// so nur ein Wert
 				mavslp += (a - b);
 			}
 		}

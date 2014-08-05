@@ -31,8 +31,8 @@ public class SlopeSignChanges implements SingleFeatureExtractor {
 				counter++;
 		}
 
-		// TODO scale: divide by signal size/2 ?
-		return counter;
+		// scale: divide by signal size/2 (slope change every signal)
+		return counter /= (signal.length /2);
 	}
 
 }
