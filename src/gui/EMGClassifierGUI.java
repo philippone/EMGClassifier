@@ -273,7 +273,7 @@ public class EMGClassifierGUI extends Application {
 				});
 		
 		Button manualDetectionButton = new Button("Detection");
-		manualDetectionButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
+		manualDetectionButton.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<Event>() {
 
 			@Override
 			public void handle(Event arg0) {

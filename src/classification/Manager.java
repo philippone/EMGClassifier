@@ -23,6 +23,7 @@ public class Manager implements ObservableSignalListener,
 	private Classifier classifier;
 	private long time = 0;
 	private boolean isNextSignalOnset = false;
+	private boolean waitForOnset = false;
 
 	public void setGui(EMGClassifierGUI gui) {
 		this.gui = gui;
@@ -39,15 +40,22 @@ public class Manager implements ObservableSignalListener,
 		trainer = new Trainer();
 	}
 
+	private int j = 0;
+	private boolean recording = false;
+	private int simpleOnsetThreshold;
 	/**
 	 * notify manager when new signal appears
 	 * */
 	@Override
 	public void notifySignal(int... sig) {
-		// System.out.println("sig1 " + sig[0]);
-		// System.out.println("sig2 " + sig[1]);
-		// System.out.println("sig3 " + sig[2]);
-
+		j++;
+		if (j % 5 == 0) {
+			 System.out.println("sig1 " + sig[0]);
+			 System.out.println("sig2 " + sig[1]);
+			 System.out.println("sig3 " + sig[2]);
+			
+		}
+		
 		// notify gui
 
 		// gui.notify(new Signal(sig[0]), new Signal(sig[1]), new
@@ -62,18 +70,38 @@ public class Manager implements ObservableSignalListener,
 			sampleRecog.recognizeSample(sig);
 			break;
 		case RECORDING:
-			SignalEntry se = null;
-			if (isNextSignalOnset) {
-
-				se = new SignalEntry(true, gui.getCurrentGesture(), sig);
-				isNextSignalOnset = false;
+			if (recording) {
 				
-			} else {
+//				if (waitForOnset) {
+//					
+//					for (int i : sig) {
+//						
+//						if (i >= simpleOnsetThreshold) {
+//							
+//							isNextSignalOnset = true;
+//							waitForOnset = false;
+//							break;
+//							
+//						}
+//						
+//					}
+//					
+//					
+//				}
 				
-				se = new SignalEntry(false, Gesture.UNDEFINED, sig);
-
+				SignalEntry se = null;
+				if (isNextSignalOnset) {
+					
+					se = new SignalEntry(true, gui.getCurrentGesture(), sig);
+					isNextSignalOnset = false;
+					
+				} else {
+					
+					se = new SignalEntry(false, Gesture.UNDEFINED, sig);
+					
+				}
+				record.add(se);
 			}
-			record.add(se);
 			break;
 
 		default:
@@ -151,15 +179,19 @@ public class Manager implements ObservableSignalListener,
 	}
 
 	public void setDetection() {
+		System.out.println("setdetection");
 		sampleRecog.setDetection();
 		isNextSignalOnset = true;
+//		waitForOnset = true;
 	}
 
 	public void startRecord() {
 		record = new LinkedList<SignalEntry>();
+		recording = true;
 	}
 
 	public void stopRecord() {
+		recording = false;
 		DataReaderWriter.writeSignal(record);
 	}
 
