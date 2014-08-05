@@ -1,8 +1,13 @@
 package test;
 
+import java.util.LinkedList;
 import java.util.Random;
 
+import persistence.DataReaderWriter;
+import classification.Gesture;
+import classification.Manager;
 import classification.SampleRecognizer;
+import classification.Manager.SignalEntry;
 
 public class Testing {
 	
@@ -62,14 +67,21 @@ public class Testing {
 //		System.out.println(b.getVar()[0]);
 		
 		
-		SampleRecognizer sr = new SampleRecognizer(null);
-		Random r = new Random();
+//		SampleRecognizer sr = new SampleRecognizer(null);
+//		Random r = new Random();
+//		
+//		for (int i = 0; i < 1000; i++) {
+//			double sig = r.nextGaussian();
+//			int sig1 = (int)(sig * 1023);
+//			sr.recognizeSample(sig1,sig1,sig1);
+//		}
 		
-		for (int i = 0; i < 1000; i++) {
-			double sig = r.nextGaussian();
-			int sig1 = (int)(sig * 1023);
-			sr.recognizeSample(sig1,sig1,sig1);
+		LinkedList<SignalEntry> sign = new LinkedList<SignalEntry>();
+		for (int i = 0; i < 100; i++) {
+			sign.add(new SignalEntry(true, Gesture.DOWN, new int[]{1213,1223,12}));
 		}
+		
+		DataReaderWriter.writeSignal(sign);
 		
 	}
 	

@@ -7,11 +7,15 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
+import classification.Manager.SignalEntry;
 import data.LabeledFeatureVector;
 import data.TrainData;
 
@@ -117,5 +121,61 @@ public class DataReaderWriter {
 		return result;
 
 	}
+	
+	public static void writeSignal(LinkedList<SignalEntry> record){
+		
+		LocalDateTime now = LocalDateTime.now();
+		String pattern = "yyyy-MM-dd_HH-mm-ss";
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern(pattern);
+		
+		try {
+			
+			FileWriter fw = new FileWriter(new File("resources/"
+					+ dtf.format(now)  + "_recording.csv"));
+			
+			for (SignalEntry signalEntry : record) {
+				
+				fw.append(signalEntry.toString() + "\n");
+				
+			}
+			
+			fw.flush();
+			fw.close();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public static void readSignal(File file){
+		
+		
+		FileReader fileReader;
+		try {
+			fileReader = new FileReader(file);
+			BufferedReader br = new BufferedReader(fileReader);
+			
+			String readLine;
+			
+			List<LabeledFeatureVector> datalist = new LinkedList<LabeledFeatureVector>();
+			LinkedList<SignalEntry> signal = new LinkedList<SignalEntry>();
+			while ((readLine = br.readLine()) != null) {
+				String[] split = readLine.split(" ");
+				
+			}
+			
+			br.close();
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+
+
+		
+	} 
 
 }

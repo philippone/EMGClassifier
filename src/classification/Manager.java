@@ -1,5 +1,8 @@
 package classification;
 
+import java.util.LinkedList;
+
+import persistence.DataReaderWriter;
 import libsvm.svm_model;
 import gui.EMGClassifierGUI;
 import classification.SampleRecognizer.ObservableSampleListener;
@@ -11,6 +14,7 @@ public class Manager implements ObservableSignalListener,
 		ObservableSampleListener {
 
 	private SignalReader signalReader;
+	private LinkedList<SignalEntry> record;
 	private SampleRecognizer sampleRecog;
 	private Mode mode;
 	private Trainer trainer;
@@ -18,6 +22,7 @@ public class Manager implements ObservableSignalListener,
 	EMGClassifierGUI gui;
 	private Classifier classifier;
 	private long time = 0;
+	private boolean isNextSignalOnset = false;
 
 	public void setGui(EMGClassifierGUI gui) {
 		this.gui = gui;
@@ -39,16 +44,42 @@ public class Manager implements ObservableSignalListener,
 	 * */
 	@Override
 	public void notifySignal(int... sig) {
-//		 System.out.println("sig1 " + sig[0]);
-//		 System.out.println("sig2 " + sig[1]);
-//		 System.out.println("sig3 " + sig[2]);
+		// System.out.println("sig1 " + sig[0]);
+		// System.out.println("sig2 " + sig[1]);
+		// System.out.println("sig3 " + sig[2]);
 
 		// notify gui
-		
-		gui.notify(new Signal(sig[0]), new Signal(sig[1]), new Signal(sig[2]));
 
-		// forward Signals to SampleRecognizer
-		sampleRecog.recognizeSample(sig);
+		// gui.notify(new Signal(sig[0]), new Signal(sig[1]), new
+		// Signal(sig[2]));
+
+		switch (mode) {
+
+		case CLASSIFYING:
+		case TRAINING:
+		case IDLE:
+			// forward Signals to SampleRecognizer
+			sampleRecog.recognizeSample(sig);
+			break;
+		case RECORDING:
+			SignalEntry se = null;
+			if (isNextSignalOnset) {
+
+				se = new SignalEntry(true, gui.getCurrentGesture(), sig);
+				isNextSignalOnset = false;
+				
+			} else {
+				
+				se = new SignalEntry(false, Gesture.UNDEFINED, sig);
+
+			}
+			record.add(se);
+			break;
+
+		default:
+			break;
+		}
+
 	}
 
 	/**
@@ -70,23 +101,32 @@ public class Manager implements ObservableSignalListener,
 	@Override
 	public void notifySample(Sample s) {
 
-		if (mode == Mode.IDLE) {
-			System.out.println("Idle Sample");
-			// TODO
+		switch (mode) {
 
-		} else if (mode == Mode.TRAINING) {
-//			System.out.println("add Training Sample");
-			// forward Sample to Trainer
-			Gesture currentGesture = gui.getCurrentGesture();
-			trainer.addSample(s, currentGesture);
-
-		} else if (mode == Mode.CLASSIFYING) {
+		case CLASSIFYING:
 			System.out.println("add sample to classify");
 			// forward Sample to Classifier
 			Gesture g = classifier.classifySample(s);
 			gui.showClassifiedGesture(g);
 			// TODO notify gui, invoke actoin etc.
+			break;
+		case IDLE:
+			System.out.println("Idle Sample");
+			break;
+		case RECORDING:
+
+			break;
+		case TRAINING:
+			System.out.println("add Training Sample");
+			// forward Sample to Trainer
+			Gesture currentGesture = gui.getCurrentGesture();
+			trainer.addSample(s, currentGesture);
+			break;
+
+		default:
+			break;
 		}
+
 		System.out.println("ajfslkdfj");
 
 	}
@@ -106,12 +146,48 @@ public class Manager implements ObservableSignalListener,
 	}
 
 	public void changeToRecordMode() {
+		startRecord();
 		mode = Mode.RECORDING;
 	}
 
 	public void setDetection() {
 		sampleRecog.setDetection();
+		isNextSignalOnset = true;
 	}
 
+	public void startRecord() {
+		record = new LinkedList<SignalEntry>();
+	}
 
+	public void stopRecord() {
+		DataReaderWriter.writeSignal(record);
+	}
+
+	public static class SignalEntry {
+
+		private boolean onset;
+		private Gesture gesture;
+		private int[] signals;
+
+		public SignalEntry(boolean onset, Gesture gesture, int[] signals) {
+			this.onset = onset;
+			this.gesture = gesture;
+			this.signals = signals;
+		}
+
+		@Override
+		public String toString() {
+
+			String csv = (onset ? "1" : "0") + ","
+					+ (onset ? gesture.getValue() : "-1");
+
+			for (int sig : signals) {
+
+				csv += "," + sig;
+
+			}
+			return csv;
+		}
+
+	}
 }

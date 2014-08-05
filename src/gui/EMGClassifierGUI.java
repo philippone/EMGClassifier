@@ -189,6 +189,17 @@ public class EMGClassifierGUI extends Application {
 						man.changeToRecordMode();
 					}
 				});
+		
+		modeRecordButton.selectedProperty().addListener(new ChangeListener<Boolean>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0,
+					Boolean arg1, Boolean arg2) {
+				if (!arg2) {
+					man.stopRecord();
+				}
+			}
+		});
 
 		// modeBox.fillWidthProperty().set(true);
 
