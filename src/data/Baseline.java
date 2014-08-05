@@ -18,6 +18,11 @@ public class Baseline {
 	}
 
 	public double[] getVar() {
+//		System.out.print("Variance: " );
+//		for (int i = 0; i < var.length; i++) {
+//			System.out.print(var[i] + ", ");
+//		}
+//		System.out.println( " ");
 		return var;
 	}
 

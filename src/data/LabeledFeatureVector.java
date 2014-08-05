@@ -26,9 +26,9 @@ public class LabeledFeatureVector extends FeatureVector {
 		String s = Gesture.labelToGesture(label) + ": [ ";
 		for (int i = 0; i < features.length; i++) {
 			if (i < features.length - 1)
-				s += " " + features[i] + ", ";
+				s += " " + features[i] + "\t";
 			else
-				s += " " + features[i];
+				s += "" + features[i];
 		}
 		s += " ]";
 

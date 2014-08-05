@@ -10,10 +10,10 @@ import data.Window;
 public class SampleRecognizer {
 
 	// Bonato Threshold for test-function
-	private final static double BONATO_THRESHOLD_H = 4;
+	private final static double BONATO_THRESHOLD_H = 2;
 
 	// Bonato Threshold for M consecutive signal pairs
-	private final static double BONATO_THRESHOLD_M = 3;
+	private final static double BONATO_THRESHOLD_M = 4;
 
 	private final static boolean BONATO_MOVING_BASELINE = false;
 

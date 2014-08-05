@@ -120,6 +120,11 @@ public class SVMTest {
 		int totalClasses = 3;
 		int[] labels = new int[totalClasses];
 		svm.svm_get_labels(model, labels);
+		
+		for (int i = 0; i < model.label.length; i++) {
+			System.out.println("model label " + i + " " + model.label[i]);
+		}
+		
 
 		double[] prob_estimates = new double[totalClasses];
 		double v = svm.svm_predict_probability(model, nodes, prob_estimates);

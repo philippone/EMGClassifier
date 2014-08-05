@@ -36,6 +36,6 @@ public class Variance implements SingleFeatureExtractor {
 
 		
 		// TODO scale
-		return x;
+		return x /= (1024 * 1024) ;
 	}
 }
