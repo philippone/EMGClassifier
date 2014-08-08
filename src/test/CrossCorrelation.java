@@ -31,11 +31,11 @@ public class CrossCorrelation {
 		for (int i = 0; i < dataCount; i++) {
 			double[] features = lfvList.get(i).getFeatures();
 			prob.x[i] = new svm_node[features.length - 1];
-			for (int j = 0; j < features.length; j++) {
+			for (int j = 1; j < features.length; j++) {
 				svm_node node = new svm_node();
 				node.index = j;
-				node.value = features[j];
-				prob.x[i][j] = node;
+				node.value = features[j-1];
+				prob.x[i][j-1] = node;
 			}
 			prob.y[i] = lfvList.get(i).getLabel();
 		}

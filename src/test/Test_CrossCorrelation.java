@@ -1,7 +1,9 @@
 package test;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import persistence.DataReaderWriter;
 import data.LabeledFeatureVector;
 import extractors.MeanAbsoluteValue;
 import extractors.SignalToFeatureConverter;
@@ -16,6 +18,7 @@ public class Test_CrossCorrelation {
 
 	private static ArrayList<SingleFeatureExtractor> extractors;
 	private static float granularity = 0.1f;
+	private static int windowSize = 30;
 
 	static {
 
@@ -47,10 +50,10 @@ public class Test_CrossCorrelation {
 
 	}
 
-	public final static void main(int argc, String[] args) {
+	public final static void main(String[] args) {
 
 		// parse Signal to LableledFeatureVector
-		ArrayList<LabeledFeatureVector> trainSamples = null;
+		List<LabeledFeatureVector> trainSamples = DataReaderWriter.getTrainingLabledFeatureVectors(windowSize, extractors);
 
 		// validate
 		CrossCorrelation cc = new CrossCorrelation(trainSamples);
