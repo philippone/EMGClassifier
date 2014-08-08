@@ -5,6 +5,7 @@ import java.util.List;
 import libsvm.svm;
 import libsvm.svm_node;
 import libsvm.svm_parameter;
+import libsvm.svm_print_interface;
 import libsvm.svm_problem;
 import data.LabeledFeatureVector;
 
@@ -60,8 +61,20 @@ public class CrossCorrelation {
 		return param;
 
 	}
-
+	
+	
+	svm_print_interface your_print_func = new svm_print_interface()
+	{ 
+		public void print(String s)
+		{
+			// your own format
+		}
+	};
+	
 	public void crossValidation(float granularity) {
+		
+		
+		svm.svm_set_print_string_function(your_print_func);
 
 		float gammaMax = 1.0f;
 		float CMax = 1.0f;
