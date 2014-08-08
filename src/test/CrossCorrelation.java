@@ -77,16 +77,20 @@ public class CrossCorrelation {
 		svm.svm_set_print_string_function(your_print_func);
 
 		float gammaMax = 1.0f;
-		float CMax = 1.0f;
+		float CMax = 100f;
 
 		for (float gamma = 0; gamma < gammaMax; gamma += granularity) {
-			for (float C = 0; C < CMax; C += granularity) {
+			for (float C = 0; C < CMax; C += 1) {
 
 				double[] target = new double[problem.l];
 
 				// create params
 				svm_parameter param = createParam(gamma, 0.5f, C);
 
+				if (null != svm.svm_check_parameter(problem, param)) {
+					System.out.println("schlechte parameter");
+				}
+				
 				// exec cros validation
 				svm.svm_cross_validation(problem, param, 10, target);
 
