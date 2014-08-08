@@ -20,6 +20,7 @@ public enum Gesture {
 	}
 	
 	public static Gesture labelToGesture(double v) {
+		System.out.println(v);
 		return Gesture.values()[(int)v - 1];
 	}
 

@@ -1,10 +1,17 @@
 package test;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import persistence.DataReaderWriter;
 import classification.Gesture;
+import data.LabeledFeatureVector;
 import data.SignalEntry;
+import extractors.MeanAbsoluteValue;
+import extractors.MeanAbsoluteValueSlope;
+import extractors.SimpleSquareIntegral;
+import extractors.SingleFeatureExtractor;
 
 public class Testing {
 	
@@ -72,13 +79,23 @@ public class Testing {
 //			int sig1 = (int)(sig * 1023);
 //			sr.recognizeSample(sig1,sig1,sig1);
 //		}
+//		
+//		LinkedList<SignalEntry> sign = new LinkedList<SignalEntry>();
+//		for (int i = 0; i < 100; i++) {
+//			sign.add(new SignalEntry(true, Gesture.DOWN, new int[]{1213,1223,12}));
+//		}
+//		
+//		DataReaderWriter.writeSignal(sign);
+		ArrayList<SingleFeatureExtractor> ex = new ArrayList<SingleFeatureExtractor>();
+		ex.add(new MeanAbsoluteValue());
+		ex.add(new MeanAbsoluteValueSlope());
+		ex.add(new SimpleSquareIntegral());
 		
-		LinkedList<SignalEntry> sign = new LinkedList<SignalEntry>();
-		for (int i = 0; i < 100; i++) {
-			sign.add(new SignalEntry(true, Gesture.DOWN, new int[]{1213,1223,12}));
+		List<LabeledFeatureVector> trainingLabledFeatureVectors = DataReaderWriter.getTrainingLabledFeatureVectors(30, ex);
+		
+		for (LabeledFeatureVector labeledFeatureVector : trainingLabledFeatureVectors) {
+			System.out.println("Label" + labeledFeatureVector.getLabel());
 		}
-		
-		DataReaderWriter.writeSignal(sign);
 		
 	}
 	
