@@ -72,56 +72,56 @@ public class Trainer {
 		param.cache_size = 20000;
 		param.eps = 0.001;
 
-		double[] target = new double[prob.l];
-		
-		svm.svm_cross_validation(prob, param, 10, target);
-		
-		for (int i = 0; i < target.length; i++) {
-			System.out.println("target " +  target[i]);
-		}
-		
-		
-		System.out.println("---------2---------");
-		param.gamma = 0.4;
-		param.C = 0.8;
-		svm.svm_cross_validation(prob, param, 10, target);
-		
-		for (int i = 0; i < target.length; i++) {
-			System.out.println("target " +  target[i]);
-		}
-		
-		
-		System.out.println("---------3---------");
-		param.gamma = 0.7;
-		param.C = 1.2;
-		svm.svm_cross_validation(prob, param, 10, target);
-		
-		for (int i = 0; i < target.length; i++) {
-			System.out.println("target " +  target[i]);
-		}
-		
-		
-		System.out.println("---------4---------");
-		param.gamma = 0.9;
-		param.C = 1.4;
-
-		svm.svm_cross_validation(prob, param, 10, target);
-		
-		for (int i = 0; i < target.length; i++) {
-			System.out.println("target " +  target[i]);
-		}
-		
-		System.out.println("---------5---------");
-		param.gamma = 0.8;
-		param.C = 1.4;
-
-		svm.svm_cross_validation(prob, param, 10, target);
-
-		
-		for (int i = 0; i < target.length; i++) {
-			System.out.println("target " +  target[i]);
-		}
-		
+//		double[] target = new double[prob.l];
+//		
+//		svm.svm_cross_validation(prob, param, 10, target);
+//		
+//		for (int i = 0; i < target.length; i++) {
+//			System.out.println("target " +  target[i]);
+//		}
+//		
+//		
+//		System.out.println("---------2---------");
+//		param.gamma = 0.4;
+//		param.C = 0.8;
+//		svm.svm_cross_validation(prob, param, 10, target);
+//		
+//		for (int i = 0; i < target.length; i++) {
+//			System.out.println("target " +  target[i]);
+//		}
+//		
+//		
+//		System.out.println("---------3---------");
+//		param.gamma = 0.7;
+//		param.C = 1.2;
+//		svm.svm_cross_validation(prob, param, 10, target);
+//		
+//		for (int i = 0; i < target.length; i++) {
+//			System.out.println("target " +  target[i]);
+//		}
+//		
+//		
+//		System.out.println("---------4---------");
+//		param.gamma = 0.9;
+//		param.C = 1.4;
+//
+//		svm.svm_cross_validation(prob, param, 10, target);
+//		
+//		for (int i = 0; i < target.length; i++) {
+//			System.out.println("target " +  target[i]);
+//		}
+//		
+//		System.out.println("---------5---------");
+//		param.gamma = 0.8;
+//		param.C = 1.4;
+//
+//		svm.svm_cross_validation(prob, param, 10, target);
+//
+//		
+//		for (int i = 0; i < target.length; i++) {
+//			System.out.println("target " +  target[i]);
+//		}
+//		
 		svm_model model = svm.svm_train(prob, param);
 		
 		
