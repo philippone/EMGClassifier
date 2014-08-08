@@ -8,15 +8,12 @@ import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Scanner;
 
-import classification.Manager.SignalEntry;
 import data.LabeledFeatureVector;
+import data.SignalEntry;
 import data.TrainData;
 
 public class DataReaderWriter {

@@ -1,13 +1,10 @@
 package test;
 
 import java.util.LinkedList;
-import java.util.Random;
 
 import persistence.DataReaderWriter;
 import classification.Gesture;
-import classification.Manager;
-import classification.SampleRecognizer;
-import classification.Manager.SignalEntry;
+import data.SignalEntry;
 
 public class Testing {
 	
