@@ -174,5 +174,9 @@ public class DataReaderWriter {
 
 		
 	} 
+	
+	public List<LabeledFeatureVector>getTrainingLabledFeatureVectors() {
+		return null;
+	}
 
 }

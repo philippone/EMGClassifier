@@ -26,8 +26,7 @@ public class MeanAbsoluteValue implements SingleFeatureExtractor {
 		avg /= signal.length;
 		
 		// scale: divide by maximum
-		double scale = (1024 * signal.length);
-		return avg /= scale;
+		return avg /= 1024;
 	}
 
 }
