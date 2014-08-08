@@ -5,6 +5,7 @@ import java.util.List;
 
 import persistence.DataReaderWriter;
 import data.LabeledFeatureVector;
+import data.TrainData;
 import extractors.MeanAbsoluteValue;
 import extractors.SignalToFeatureConverter;
 import extractors.SimpleSquareIntegral;
@@ -19,6 +20,13 @@ public class Test_CrossCorrelation {
 	private static ArrayList<SingleFeatureExtractor> extractors;
 	private static float granularity = 0.1f;
 	private static int windowSize = 30;
+
+	private static double gammaStart = 0.01;
+	private static double gammaEnd = 1;
+	private static double gammaGranularity = 0.01;
+	private static double CStart = 0.1;
+	private static double CEnd = 100;
+	private static double CGranularity = 0.1;
 
 	static {
 
@@ -53,12 +61,21 @@ public class Test_CrossCorrelation {
 	public final static void main(String[] args) {
 
 		// parse Signal to LableledFeatureVector
-		List<LabeledFeatureVector> trainSamples = DataReaderWriter.getTrainingLabledFeatureVectors(windowSize, extractors);
+		 List<LabeledFeatureVector> trainSamples =
+		 DataReaderWriter.getTrainingLabledFeatureVectors(windowSize,
+		 extractors);
+
+//		List<LabeledFeatureVector> trainSamples = new ArrayList<LabeledFeatureVector>();
+//		List<TrainData> trainingData = DataReaderWriter.readData();
+//		for (TrainData trainData : trainingData) {
+//			trainSamples.addAll(trainData.getData());
+//		}
 
 		// validate
 		CrossCorrelation cc = new CrossCorrelation(trainSamples);
 
-		cc.crossValidation(granularity);
+		cc.crossValidation(gammaStart, gammaEnd, gammaGranularity, CStart,
+				CEnd, CGranularity);
 	}
 
 }

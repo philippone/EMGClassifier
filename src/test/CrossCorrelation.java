@@ -35,8 +35,8 @@ public class CrossCorrelation {
 			for (int j = 1; j < features.length; j++) {
 				svm_node node = new svm_node();
 				node.index = j;
-				node.value = features[j-1];
-				prob.x[i][j-1] = node;
+				node.value = features[j - 1];
+				prob.x[i][j - 1] = node;
 			}
 			prob.y[i] = lfvList.get(i).getLabel();
 		}
@@ -47,12 +47,12 @@ public class CrossCorrelation {
 		return prob;
 	}
 
-	private svm_parameter createParam(float gamma, float nu, float C) {
+	private svm_parameter createParam(double gamma, float nu, double c) {
 		svm_parameter param = new svm_parameter();
 		param.probability = 1;
 		param.gamma = gamma;// 0.5;
 		param.nu = nu;// 0.5;
-		param.C = C;// 0.8;
+		param.C = c;// 0.8;
 		param.svm_type = svm_parameter.C_SVC;
 		param.kernel_type = svm_parameter.RBF;
 		param.cache_size = 20000;
@@ -61,26 +61,21 @@ public class CrossCorrelation {
 		return param;
 
 	}
-	
-	
-	svm_print_interface your_print_func = new svm_print_interface()
-	{ 
-		public void print(String s)
-		{
+
+	svm_print_interface your_print_func = new svm_print_interface() {
+		public void print(String s) {
 			// your own format
 		}
 	};
-	
-	public void crossValidation(float granularity) {
-		
-		
+
+	public void crossValidation(double gammaStart, double gammaEnd,
+			double gammaGranularity, double CStart, double CEnd,
+			double CGranularity) {
+
 		svm.svm_set_print_string_function(your_print_func);
 
-		float gammaMax = 1.0f;
-		float CMax = 100f;
-
-		for (float gamma = 0; gamma < gammaMax; gamma += granularity) {
-			for (float C = 0; C < CMax; C += 1) {
+		for (double gamma = gammaStart; gamma < gammaEnd; gamma += gammaGranularity) {
+			for (double C = CStart; C < CEnd; C += CGranularity) {
 
 				double[] target = new double[problem.l];
 
@@ -90,19 +85,32 @@ public class CrossCorrelation {
 				if (null != svm.svm_check_parameter(problem, param)) {
 					System.out.println("schlechte parameter");
 				}
-				
+
 				// exec cros validation
-				svm.svm_cross_validation(problem, param, 10, target);
+				svm.svm_cross_validation(problem, param, 5, target);
 
 				// how much are correct
 				float v = validate(labels, target);
 
+				if (v > maxCorr) {
+					maxCorr = v;
+					maxC = param.C;
+					maxGamma = param.gamma;
+				}
+
 				// sysout
-				output(v, param);
+				output(v, param, maxCorr, maxC, maxGamma);
 			}
 		}
 
+		System.out.println("Max: " + maxCorr + "( " + maxC + ", " + maxGamma
+				+ ")");
+
 	}
+
+	float maxCorr = 0;
+	double maxC = 0;
+	double maxGamma = 0;
 
 	/**
 	 * check validated results against training (real) gestures
@@ -125,8 +133,11 @@ public class CrossCorrelation {
 		return correct / validated.length;
 	}
 
-	private void output(float v, svm_parameter param) {
-		System.out.println("Validation: " + v * 100 + " (" + param.toString()
-				+ ")");
+	private int counter = 0;
+
+	private void output(float v, svm_parameter param, double maxV, double maxC, double maxGamma) {
+		System.out.println(counter + "\t" + "Validation: " + v * 100 + "\t" + " ("
+				+ param.C + "\t" + param.gamma +  ")" + "\t" + "Max: " + "\t" + maxV + "\t" + maxC + "\t" + maxGamma );
+		counter++;
 	}
 }
