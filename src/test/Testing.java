@@ -86,16 +86,20 @@ public class Testing {
 //		}
 //		
 //		DataReaderWriter.writeSignal(sign);
-		ArrayList<SingleFeatureExtractor> ex = new ArrayList<SingleFeatureExtractor>();
-		ex.add(new MeanAbsoluteValue());
-		ex.add(new MeanAbsoluteValueSlope());
-		ex.add(new SimpleSquareIntegral());
+//		ArrayList<SingleFeatureExtractor> ex = new ArrayList<SingleFeatureExtractor>();
+//		ex.add(new MeanAbsoluteValue());
+//		ex.add(new MeanAbsoluteValueSlope());
+//		ex.add(new SimpleSquareIntegral());
+//		
+//		List<LabeledFeatureVector> trainingLabledFeatureVectors = DataReaderWriter.getTrainingLabledFeatureVectors(30, ex);
+//		
+//		for (LabeledFeatureVector labeledFeatureVector : trainingLabledFeatureVectors) {
+//			System.out.println("Label" + labeledFeatureVector.getLabel());
+//		}
 		
-		List<LabeledFeatureVector> trainingLabledFeatureVectors = DataReaderWriter.getTrainingLabledFeatureVectors(30, ex);
-		
-		for (LabeledFeatureVector labeledFeatureVector : trainingLabledFeatureVectors) {
-			System.out.println("Label" + labeledFeatureVector.getLabel());
-		}
+		LinkedList<SignalEntry> onsetSignal = DataReaderWriter.getOnsetSignal();
+		int size = onsetSignal.size();
+		System.out.println(size);
 		
 	}
 	

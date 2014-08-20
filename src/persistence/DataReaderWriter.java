@@ -2,7 +2,9 @@ package persistence;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
@@ -14,6 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import classification.Gesture;
+import classification.SampleRecognizer;
 import data.FeatureVector;
 import data.LabeledFeatureVector;
 import data.Sample;
@@ -219,12 +222,10 @@ public class DataReaderWriter {
 									signals.get(i).add(
 											Integer.parseInt(split[i + 2]));
 								}
-								System.out.println(split[0] + ","
-										+ split[1] 
-										+ "," + split[2] 
-										+ "," + split[3] 
-										+ "," + split[4] );
-								
+								System.out.println(split[0] + "," + split[1]
+										+ "," + split[2] + "," + split[3] + ","
+										+ split[4]);
+
 								label = Double.parseDouble(split[1]);
 								sampling = true;
 
@@ -246,7 +247,8 @@ public class DataReaderWriter {
 
 							} else {
 
-								System.out.println("Samplesize " + signals.get(0).size());
+								System.out.println("Samplesize "
+										+ signals.get(0).size());
 								sample = new Sample(signals);
 								FeatureVector fv = new FeatureVector(
 										new double[] {});
@@ -277,8 +279,52 @@ public class DataReaderWriter {
 
 			}
 		}
-		
+
 		return trainingLabeledFeatureVectors;
 	}
 
+	public static LinkedList<SignalEntry> getOnsetSignal() {
+
+		LinkedList<SignalEntry> result = new LinkedList<SignalEntry>();
+
+		File file = new File("resources/onset");
+
+		File[] listFiles = file.listFiles();
+		for (File file2 : listFiles) {
+
+			try {
+				FileReader reader = new FileReader(file2);
+				BufferedReader br = new BufferedReader(reader);
+
+				String newLine = "";
+
+				while ((newLine = br.readLine()) != null) {
+
+					String[] split = newLine.split(",");
+
+					boolean onset = split[0] == "1";
+					Gesture gesture = (onset ? Gesture.labelToGesture(Double
+							.parseDouble(split[1])) : Gesture.UNDEFINED);
+					SignalEntry se = new SignalEntry(split[0] == "1", gesture,
+							new int[] { Integer.parseInt(split[2]),
+									Integer.parseInt(split[3]),
+									Integer.parseInt(split[4]) });
+					
+					result.add(se);
+
+				}
+
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+
+		return result;
+
+	}
 }

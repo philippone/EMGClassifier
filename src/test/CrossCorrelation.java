@@ -47,7 +47,7 @@ public class CrossCorrelation {
 		return prob;
 	}
 
-	private svm_parameter createParam(double gamma, float nu, double c) {
+	private svm_parameter createParam(double gamma, double nu, double c) {
 		svm_parameter param = new svm_parameter();
 		param.probability = 1;
 		param.gamma = gamma;// 0.5;
@@ -80,7 +80,7 @@ public class CrossCorrelation {
 				double[] target = new double[problem.l];
 
 				// create params
-				svm_parameter param = createParam(gamma, 0.5f, C);
+				svm_parameter param = createParam(gamma, 0.5, C);
 
 				if (null != svm.svm_check_parameter(problem, param)) {
 					System.out.println("schlechte parameter");

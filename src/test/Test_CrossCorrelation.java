@@ -21,12 +21,12 @@ public class Test_CrossCorrelation {
 	private static float granularity = 0.1f;
 	private static int windowSize = 30;
 
-	private static double gammaStart = 0.01;
-	private static double gammaEnd = 1;
-	private static double gammaGranularity = 0.01;
-	private static double CStart = 0.1;
-	private static double CEnd = 100;
-	private static double CGranularity = 0.1;
+	private static double gammaStart = 1.9002;
+	private static double gammaEnd = 1.9005;
+	private static double gammaGranularity = 0.0001;
+	private static double CStart = 124;
+	private static double CEnd = 126;
+	private static double CGranularity = 1;
 
 	static {
 
