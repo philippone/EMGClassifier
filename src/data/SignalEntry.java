@@ -28,4 +28,9 @@ public class SignalEntry {
 		return csv;
 	}
 
+	public int[] getSignals() {
+		return signals;
+	}
+	
+
 }

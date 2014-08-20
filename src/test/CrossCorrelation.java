@@ -68,9 +68,9 @@ public class CrossCorrelation {
 		}
 	};
 
-	public void crossValidation(double gammaStart, double gammaEnd,
+	public double[] crossValidation(double gammaStart, double gammaEnd,
 			double gammaGranularity, double CStart, double CEnd,
-			double CGranularity) {
+			double CGranularity, int folding) {
 
 		svm.svm_set_print_string_function(your_print_func);
 
@@ -87,7 +87,7 @@ public class CrossCorrelation {
 				}
 
 				// exec cros validation
-				svm.svm_cross_validation(problem, param, 3, target);
+				svm.svm_cross_validation(problem, param, folding, target);
 
 				// how much are correct
 				float v = validate(labels, target);
@@ -105,6 +105,8 @@ public class CrossCorrelation {
 
 		System.out.println("Max: " + maxCorr + "( " + maxC + ", " + maxGamma
 				+ ")");
+		
+		return new double[]{maxGamma,maxC};
 
 	}
 

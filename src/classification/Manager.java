@@ -1,5 +1,7 @@
 package classification;
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.util.LinkedList;
 
 import persistence.DataReaderWriter;
@@ -44,6 +46,9 @@ public class Manager implements ObservableSignalListener,
 	private int j = 0;
 	private boolean recording = false;
 	private int simpleOnsetThreshold;
+	private File lastRecordFile = null;
+	private boolean useCurrent = true;
+
 	/**
 	 * notify manager when new signal appears
 	 * */
@@ -51,12 +56,12 @@ public class Manager implements ObservableSignalListener,
 	public void notifySignal(int... sig) {
 		j++;
 		if (j % 5 == 0) {
-			 System.out.println("sig1 " + sig[0]);
-			 System.out.println("sig2 " + sig[1]);
-			 System.out.println("sig3 " + sig[2]);
-			
+			System.out.println("sig1 " + sig[0]);
+			System.out.println("sig2 " + sig[1]);
+			System.out.println("sig3 " + sig[2]);
+
 		}
-		
+
 		// notify gui
 
 		// gui.notify(new Signal(sig[0]), new Signal(sig[1]), new
@@ -72,34 +77,34 @@ public class Manager implements ObservableSignalListener,
 			break;
 		case RECORDING:
 			if (recording) {
-				
-//				if (waitForOnset) {
-//					
-//					for (int i : sig) {
-//						
-//						if (i >= simpleOnsetThreshold) {
-//							
-//							isNextSignalOnset = true;
-//							waitForOnset = false;
-//							break;
-//							
-//						}
-//						
-//					}
-//					
-//					
-//				}
-				
+
+				// if (waitForOnset) {
+				//
+				// for (int i : sig) {
+				//
+				// if (i >= simpleOnsetThreshold) {
+				//
+				// isNextSignalOnset = true;
+				// waitForOnset = false;
+				// break;
+				//
+				// }
+				//
+				// }
+				//
+				//
+				// }
+
 				SignalEntry se = null;
 				if (isNextSignalOnset) {
-					
+
 					se = new SignalEntry(true, gui.getCurrentGesture(), sig);
 					isNextSignalOnset = false;
-					
+
 				} else {
-					
+
 					se = new SignalEntry(false, Gesture.UNDEFINED, sig);
-					
+
 				}
 				record.add(se);
 			}
@@ -156,14 +161,48 @@ public class Manager implements ObservableSignalListener,
 			break;
 		}
 
-		System.out.println("ajfslkdfj");
+		// System.out.println("ajfslkdfj");
 
 	}
 
 	public void changeToClassifyMode() {
+		if (mode == Mode.TRAINING) {
+			svm_model svm_model = trainer.createModel();
+			classifier = new Classifier(svm_model);
+		} else if (mode == Mode.RECORDING) {
+			if (useCurrent  && lastRecordFile != null) {
+
+				svm_model traingingModel = Util
+						.getTraingingModel(lastRecordFile);
+				classifier = new Classifier(traingingModel);
+
+			} else {
+				
+				File file = new File("resources/training");
+				File[] listFiles = null;
+				if (file.exists() && file.isDirectory()) {
+
+
+					listFiles = file.listFiles(new FilenameFilter() {
+						@Override
+						public boolean accept(File dir, String name) {
+							return name.endsWith(".csv");
+						}
+					});
+
+				}
+				
+				if (listFiles != null && listFiles.length > 0) {
+					
+					svm_model traingingModel = Util
+							.getTraingingModel(listFiles[0]);
+					classifier = new Classifier(traingingModel);
+					
+				}
+				
+			}
+		}
 		mode = Mode.CLASSIFYING;
-		svm_model svm_model = trainer.createModel();
-		classifier = new Classifier(svm_model);
 	}
 
 	public void changeToTrainMode() {
@@ -183,7 +222,7 @@ public class Manager implements ObservableSignalListener,
 		System.out.println("setdetection");
 		sampleRecog.setDetection();
 		isNextSignalOnset = true;
-//		waitForOnset = true;
+		// waitForOnset = true;
 	}
 
 	public void startRecord() {
@@ -193,7 +232,7 @@ public class Manager implements ObservableSignalListener,
 
 	public void stopRecord() {
 		recording = false;
-		DataReaderWriter.writeSignal(record);
+		lastRecordFile = DataReaderWriter.writeSignal(record);
 	}
 
 }
