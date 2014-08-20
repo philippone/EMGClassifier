@@ -87,7 +87,7 @@ public class CrossCorrelation {
 				}
 
 				// exec cros validation
-				svm.svm_cross_validation(problem, param, 3, target);
+				svm.svm_cross_validation(problem, param, 10, target);
 
 				// how much are correct
 				float v = validate(labels, target);

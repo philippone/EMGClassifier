@@ -18,12 +18,12 @@ public class Test_CrossCorrelation {
 	private static ArrayList<SingleFeatureExtractor> extractors;
 	private static int windowSize = 30;
 
-	private static double gammaStart = 0.6;
-	private static double gammaEnd = 6;
+	private static double gammaStart = 0.5;
+	private static double gammaEnd = 7;
 	private static double gammaGranularity = 0.1;
-	private static double CStart = 70;
-	private static double CEnd = 140;
-	private static double CGranularity = 1;
+	private static double CStart = 10;
+	private static double CEnd = 200;
+	private static double CGranularity = 5;
 
 	static {
 
