@@ -167,9 +167,11 @@ public class Manager implements ObservableSignalListener,
 
 	public void changeToClassifyMode() {
 		if (mode == Mode.TRAINING) {
+			mode = Mode.CLASSIFYING;
 			svm_model svm_model = trainer.createModel();
 			classifier = new Classifier(svm_model);
 		} else if (mode == Mode.RECORDING) {
+			mode = Mode.CLASSIFYING;
 			if (useCurrent  && lastRecordFile != null) {
 
 				svm_model traingingModel = Util
@@ -202,7 +204,7 @@ public class Manager implements ObservableSignalListener,
 				
 			}
 		}
-		mode = Mode.CLASSIFYING;
+		
 	}
 
 	public void changeToTrainMode() {
