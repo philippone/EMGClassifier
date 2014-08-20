@@ -65,7 +65,7 @@ public class Classifier {
 		for (int i = 0; i < totalClasses; i++) {
 			System.out.print("(" + labels[i] + ":" + prob_estimates[i] + ")");
 		}
-		System.out.println("(Actual:" + features[0] + " Prediction:" + v + ", " + v1 + ")");
+		System.out.println(" Prediction:" + v + ", " + v1 + ")");
 
 		return Gesture.labelToGesture(v);
 	}
