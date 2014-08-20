@@ -5,9 +5,7 @@ import java.util.List;
 
 import persistence.DataReaderWriter;
 import data.LabeledFeatureVector;
-import data.TrainData;
 import extractors.MeanAbsoluteValue;
-import extractors.SignalToFeatureConverter;
 import extractors.SimpleSquareIntegral;
 import extractors.SingleFeatureExtractor;
 import extractors.SlopeSignChanges;
@@ -18,28 +16,27 @@ import extractors.WillsonAmplitude;
 public class Test_CrossCorrelation {
 
 	private static ArrayList<SingleFeatureExtractor> extractors;
-	private static float granularity = 0.1f;
 	private static int windowSize = 30;
 
-	private static double gammaStart = 1.9002;
-	private static double gammaEnd = 1.9005;
-	private static double gammaGranularity = 0.0001;
-	private static double CStart = 124;
-	private static double CEnd = 126;
+	private static double gammaStart = 0.6;
+	private static double gammaEnd = 6;
+	private static double gammaGranularity = 0.1;
+	private static double CStart = 70;
+	private static double CEnd = 140;
 	private static double CGranularity = 1;
 
 	static {
 
 		extractors = new ArrayList<SingleFeatureExtractor>();
 
-		// MAV
+//		// MAV
 		MeanAbsoluteValue mav = new MeanAbsoluteValue();
 		extractors.add(mav);
 
-		// WAMP
-		WillsonAmplitude wamp = new WillsonAmplitude();
-		extractors.add(wamp);
-
+//		// WAMP
+//		WillsonAmplitude wamp = new WillsonAmplitude();
+//		extractors.add(wamp);
+//
 		// Varaince
 		Variance v = new Variance();
 		extractors.add(v);
@@ -61,15 +58,15 @@ public class Test_CrossCorrelation {
 	public final static void main(String[] args) {
 
 		// parse Signal to LableledFeatureVector
-		 List<LabeledFeatureVector> trainSamples =
-		 DataReaderWriter.getTrainingLabledFeatureVectors(windowSize,
-		 extractors);
+		List<LabeledFeatureVector> trainSamples = DataReaderWriter
+				.getTrainingLabledFeatureVectors(windowSize, extractors);
 
-//		List<LabeledFeatureVector> trainSamples = new ArrayList<LabeledFeatureVector>();
-//		List<TrainData> trainingData = DataReaderWriter.readData();
-//		for (TrainData trainData : trainingData) {
-//			trainSamples.addAll(trainData.getData());
-//		}
+		// List<LabeledFeatureVector> trainSamples = new
+		// ArrayList<LabeledFeatureVector>();
+		// List<TrainData> trainingData = DataReaderWriter.readData();
+		// for (TrainData trainData : trainingData) {
+		// trainSamples.addAll(trainData.getData());
+		// }
 
 		// validate
 		CrossCorrelation cc = new CrossCorrelation(trainSamples);

@@ -87,7 +87,7 @@ public class CrossCorrelation {
 				}
 
 				// exec cros validation
-				svm.svm_cross_validation(problem, param, 5, target);
+				svm.svm_cross_validation(problem, param, 3, target);
 
 				// how much are correct
 				float v = validate(labels, target);
@@ -137,7 +137,7 @@ public class CrossCorrelation {
 
 	private void output(float v, svm_parameter param, double maxV, double maxC, double maxGamma) {
 		System.out.println(counter + "\t" + "Validation: " + v * 100 + "\t" + " ("
-				+ param.C + "\t" + param.gamma +  ")" + "\t" + "Max: " + "\t" + maxV + "\t" + maxC + "\t" + maxGamma );
+				+ param.C + "\t" + param.gamma +  ")" + "\t" + "Max: " + "\t" + maxV *100+ "\t" + maxC + "\t" + maxGamma );
 		counter++;
 	}
 }
