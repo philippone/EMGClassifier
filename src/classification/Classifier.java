@@ -50,7 +50,7 @@ public class Classifier {
 		}
 
 		// TODO
-		int totalClasses = 4;
+		int totalClasses = 3;
 		
 		int[] labels = new int[totalClasses];
 		svm.svm_get_labels(model, labels);
