@@ -55,12 +55,6 @@ public class Manager implements ObservableSignalListener,
 	@Override
 	public void notifySignal(int... sig) {
 		j++;
-		if (j % 5 == 0) {
-			System.out.println("sig1 " + sig[0]);
-			System.out.println("sig2 " + sig[1]);
-			System.out.println("sig3 " + sig[2]);
-
-		}
 
 		// notify gui
 
@@ -69,9 +63,15 @@ public class Manager implements ObservableSignalListener,
 
 		switch (mode) {
 
-		case CLASSIFYING:
 		case TRAINING:
 		case IDLE:
+			if (j % 5 == 0) {
+				System.out.println("sig1 " + sig[0]);
+				System.out.println("sig2 " + sig[1]);
+				System.out.println("sig3 " + sig[2]);
+
+			}
+		case CLASSIFYING:
 			// forward Signals to SampleRecognizer
 			sampleRecog.recognizeSample(sig);
 			break;

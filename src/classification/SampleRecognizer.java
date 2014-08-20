@@ -3,6 +3,7 @@ package classification;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import test.Test_CrossCorrelation.CCTestParameter;
 import data.Baseline;
 import data.Sample;
 import data.Window;
@@ -20,7 +21,7 @@ public class SampleRecognizer {
 	private Baseline baseline = new Baseline(3, 100);
 	private Window window = new Window(3, 10, BONATO_THRESHOLD_H,
 			BONATO_THRESHOLD_M);
-	private int recordTime = 400;
+	private int recordTime = CCTestParameter.getWindowSize() * 15;
 	private boolean recording = false;
 	private long startRecTime = 0;
 	ArrayList<LinkedList<Integer>> sample = null;
