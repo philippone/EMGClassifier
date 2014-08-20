@@ -44,6 +44,13 @@ public class Trainer {
 
 	
 	public svm_model createModel() {
+		
+		return createModel(0.5, 0.8);
+		
+	}
+	
+	public svm_model createModel(double gamma, double cost){
+		
 		svm_problem prob = new svm_problem();
 		int dataCount = lfvList.size();
 		prob.y = new double[dataCount];
@@ -64,9 +71,9 @@ public class Trainer {
 
 		svm_parameter param = new svm_parameter();
 		param.probability = 1;
-		param.gamma = 0.5;
+		param.gamma = gamma;
 		param.nu = 0.5;
-		param.C = 0.8;
+		param.C = cost;
 		param.svm_type = svm_parameter.C_SVC;
 		param.kernel_type = svm_parameter.RBF;
 		param.cache_size = 20000;
@@ -130,6 +137,7 @@ public class Trainer {
 //		}
 
 		return model;
+		
 	}
 
 }

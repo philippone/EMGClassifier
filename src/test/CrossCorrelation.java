@@ -47,7 +47,7 @@ public class CrossCorrelation {
 		return prob;
 	}
 
-	private svm_parameter createParam(double gamma, float nu, double c) {
+	private svm_parameter createParam(double gamma, double nu, double c) {
 		svm_parameter param = new svm_parameter();
 		param.probability = 1;
 		param.gamma = gamma;// 0.5;
@@ -68,9 +68,9 @@ public class CrossCorrelation {
 		}
 	};
 
-	public void crossValidation(double gammaStart, double gammaEnd,
+	public double[] crossValidation(double gammaStart, double gammaEnd,
 			double gammaGranularity, double CStart, double CEnd,
-			double CGranularity) {
+			double CGranularity, int folding) {
 
 		svm.svm_set_print_string_function(your_print_func);
 
@@ -80,14 +80,14 @@ public class CrossCorrelation {
 				double[] target = new double[problem.l];
 
 				// create params
-				svm_parameter param = createParam(gamma, 0.5f, C);
+				svm_parameter param = createParam(gamma, 0.5, C);
 
 				if (null != svm.svm_check_parameter(problem, param)) {
 					System.out.println("schlechte parameter");
 				}
 
 				// exec cros validation
-				svm.svm_cross_validation(problem, param, 10, target);
+				svm.svm_cross_validation(problem, param, folding, target);
 
 				// how much are correct
 				float v = validate(labels, target);
@@ -105,6 +105,8 @@ public class CrossCorrelation {
 
 		System.out.println("Max: " + maxCorr + "( " + maxC + ", " + maxGamma
 				+ ")");
+		
+		return new double[]{maxGamma,maxC};
 
 	}
 
