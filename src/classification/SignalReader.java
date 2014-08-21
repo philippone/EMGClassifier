@@ -33,7 +33,7 @@ public class SignalReader implements SerialPortEventListener {
 			"/dev/tty.usbmodem411", "/dev/tty.usbserial-A9007UX1", // Mac OS X
 			"/dev/ttyACM0", // Raspberry Pi
 			"/dev/ttyUSB0", // Linux
-			"COM3", "COM2", "COM1", // Windows
+			"COM3", "COM2", "COM1", "COM4" // Windows
 	};
 	/**
 	 * A BufferedReader which will be fed by a InputStreamReader converting the
@@ -147,6 +147,7 @@ public class SignalReader implements SerialPortEventListener {
 	 * Handle an event on the serial port. Read the data and print it.
 	 */
 	public void serialEvent(SerialPortEvent oEvent) {
+		System.out.println("yolo");
 
 		if (isGuiInit()) {
 			switch (oEvent.getEventType()) {
@@ -170,6 +171,7 @@ public class SignalReader implements SerialPortEventListener {
 					int peek = 0;
 					int addpeek = 0;
 					while (inputStream.available() > 0) {
+						System.out.println("available");
 						// skip
 						if (skip < 10) {
 							skip++;
@@ -179,6 +181,7 @@ public class SignalReader implements SerialPortEventListener {
 							b1 = b2;
 							while ((b2 = inputStream.read()) != -1) {
 
+								System.out.println("b1 = " + b1 + " , b2 = " + b2);
 								if ((b1 & b2) == 255) {
 
 									peek = input.read();

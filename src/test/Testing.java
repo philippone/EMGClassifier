@@ -101,19 +101,28 @@ public class Testing {
 //		int size = onsetSignal.size();
 //		System.out.println(size);
 		
-//		byte[] yolo = new byte[]{5,-121};
-//		
-//		int x = 0; 
+		byte[] yolo = new byte[]{-1,3,-1,2,-1,3,-1,-1};
+		
+		int x = 0; 
+		
+		int[] yoloswag = new int[3];
+		for (int i = 0; i < 3; i++) {
+
+			for (int j = 1; j >= 0; j--) {
+
+				yoloswag[i] = (yoloswag[i] << 8) | (yolo[(i*2)+j] & 0xff);
+				
+			}
+			
+		}
+		
+		
 //		for (byte b : yolo) {
 //			x = (x << 8) |( b & 0xff);
 //			System.out.println(Integer.toBinaryString(x));
 //		}
 //		System.out.println(x);
-		int i = 255;
-		int k = 127;
-		System.out.println(i & k);
-		int j = (byte) 240;
-		System.out.println(j);
+		
 		
 	}
 	
