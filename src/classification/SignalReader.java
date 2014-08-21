@@ -168,7 +168,6 @@ public class SignalReader implements SerialPortEventListener {
 	 * Handle an event on the serial port. Read the data and print it.
 	 */
 	public void serialEvent(SerialPortEvent oEvent) {
-
 		if (isGuiInit()) {
 			switch (oEvent.getEventType()) {
 			case SerialPortEvent.BI:
@@ -185,7 +184,7 @@ public class SignalReader implements SerialPortEventListener {
 				byte[] readBuffer = new byte[8];
 
 				try {
-
+					int i = 0;
 					while (inputStream.available() > 0) {
 
 						Thread.sleep(2);
