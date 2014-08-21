@@ -115,8 +115,8 @@ public class SignalReader implements SerialPortEventListener {
 					SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
 
 			// open the streams
-//			input = new BufferedReader(new InputStreamReader(
-//					serialPort.getInputStream()));
+			// input = new BufferedReader(new InputStreamReader(
+			// serialPort.getInputStream()));
 			output = serialPort.getOutputStream();
 
 			// add event listeners
@@ -125,7 +125,7 @@ public class SignalReader implements SerialPortEventListener {
 
 			serialPort.enableReceiveThreshold(6);
 			serialPort.enableReceiveTimeout(Integer.MAX_VALUE);
-			
+
 			inputStream = serialPort.getInputStream();
 		} catch (Exception e) {
 			System.err.println(e.toString());
@@ -169,41 +169,43 @@ public class SignalReader implements SerialPortEventListener {
 					int b2 = 0;
 					int peek = 0;
 					int addpeek = 0;
-					while(inputStream.available() > 0) {
-						//skip
-						if (skip < 1000) {
-							skip += inputStream.read();
-							
-						} else {
-							
-							b1 = b2;
-							b2 = inputStream.read();
-							
-							if ((b1 & b2 ) == 255) {
-								
-								peek = input.read();
-								if (peek == 255) {
-									
-									break;
-									
-								} else {
-									
-									addpeek = 1;
-									readBuffer[0] = (byte)peek; 
-									
-								}
-								
-								
-							}
-							
-						}
-						
-					}
-					
 					while (inputStream.available() > 0) {
-						
+						// skip
+						if (skip < 10) {
+							skip++;
+
+						} else {
+
+							b1 = b2;
+							while ((b2 = inputStream.read()) != -1) {
+
+								if ((b1 & b2) == 255) {
+
+									peek = input.read();
+									if (peek == 255) {
+
+										break;
+
+									} else {
+
+										addpeek = 1;
+										readBuffer[0] = (byte) peek;
+										break;
+
+									}
+
+								}
+								b1 = b2;
+							}
+
+						}
+
+					}
+
+					while (inputStream.available() > 0) {
+
 						Thread.sleep(2);
-						int total = 0;
+						int total = addpeek;
 						int read = 0;
 						while (total < 8
 								&& (read = inputStream.read(readBuffer, total,
@@ -270,7 +272,6 @@ public class SignalReader implements SerialPortEventListener {
 		manager.notifySignal(sig1.getValue(), sig2.getValue(), sig3.getValue());
 
 	}
-	
 
 	public boolean isGuiInit() {
 		return guiInit;
