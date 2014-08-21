@@ -97,10 +97,18 @@ public class Testing {
 //			System.out.println("Label" + labeledFeatureVector.getLabel());
 //		}
 		
-		LinkedList<SignalEntry> onsetSignal = DataReaderWriter.getOnsetSignal();
-		int size = onsetSignal.size();
-		System.out.println(size);
+//		LinkedList<SignalEntry> onsetSignal = DataReaderWriter.getOnsetSignal();
+//		int size = onsetSignal.size();
+//		System.out.println(size);
 		
+		byte[] yolo = new byte[]{5,-121};
+		
+		int x = 0; 
+		for (byte b : yolo) {
+			x = (x << 8) |( b & 0xff);
+			System.out.println(Integer.toBinaryString(x));
+		}
+		System.out.println(x);
 	}
 	
 	

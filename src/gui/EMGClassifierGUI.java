@@ -77,8 +77,8 @@ public class EMGClassifierGUI extends Application {
 		sensor1.setTitle("Sensor 1 Input");
 		sensor1.setAnimated(false);
 		sensor1.setCreateSymbols(false);
-		sensor1.getStylesheets().add(".chart-series-line {" + "    -fx-stroke-width: 2px;"
-				+ "}");
+//		sensor1.getStylesheets().add(".chart-series-line {" + "    -fx-stroke-width: 2px;"
+//				+ "}");
 		((NumberAxis) sensor1.getXAxis()).setUpperBound(CHARTRATE);
 		((NumberAxis) sensor1.getYAxis()).setUpperBound(CHART_MAXVALUE);
 		((NumberAxis) sensor1.getXAxis()).setAutoRanging(false);
@@ -344,6 +344,7 @@ public class EMGClassifierGUI extends Application {
 	
 
 	public void notify(final Signal sig1, final Signal sig2, final Signal sig3) {
+		
 
 		Platform.runLater(new Runnable() {
 

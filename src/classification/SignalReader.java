@@ -150,11 +150,16 @@ public class SignalReader implements SerialPortEventListener {
 		case SerialPortEvent.DATA_AVAILABLE:
 			byte[] readBuffer = new byte[20];
 			try {
+				int buff = 0;
+				int bufflen = 6;
 				while (inputStream.available() > 0) {
-					int numBytes = inputStream.read(readBuffer);
+					buff += inputStream.read(readBuffer,buff,bufflen);
+					if (buff < 6) {
+					}
 					String s = new String(readBuffer);
 //					System.out.print(s);
 					convertSignal(s);
+					
 				}
 				
 				 
@@ -201,5 +206,6 @@ public class SignalReader implements SerialPortEventListener {
 		manager.notifySignal(sig1.getValue(), sig2.getValue(), sig3.getValue());
 
 	}
+	
 
 }
