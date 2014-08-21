@@ -70,9 +70,9 @@ public class Manager implements ObservableSignalListener,
 		case TRAINING:
 		case IDLE:
 			if (j % 5 == 0) {
-				System.out.println("sig1 " + sig[0]);
-				System.out.println("sig2 " + sig[1]);
-				System.out.println("sig3 " + sig[2]);
+				System.out.println("sig1 \t" + sig[0] + "\t" + sig[1] + "\t" + sig[2]);
+//				System.out.println("sig2 " + sig[1]);
+//				System.out.println("sig3 " + sig[2]);
 
 			}
 		case CLASSIFYING:

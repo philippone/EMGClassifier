@@ -187,7 +187,7 @@ public class SignalReader implements SerialPortEventListener {
 					int i = 0;
 					while (inputStream.available() > 0) {
 
-						Thread.sleep(2);
+						Thread.sleep(1);
 						int total = 0;
 						int read = 0;
 						while (total < 8
@@ -238,7 +238,7 @@ public class SignalReader implements SerialPortEventListener {
 
 	private void convertSignal(byte[] buffer) {
 		
-		if ((buffer[6] == buffer[7] && buffer[7] == -1)) {
+		if (!(buffer[6] == buffer[7] && buffer[7] == -1)) {
 			System.out.println("Error");
 		}
 		
@@ -257,6 +257,8 @@ public class SignalReader implements SerialPortEventListener {
 		sig1.setValue(yoloswag[0]);
 		sig2.setValue(yoloswag[1]);
 		sig3.setValue(yoloswag[2]);
+		
+		manager.notifySignal(sig1.getValue(), sig2.getValue(), sig3.getValue());
 	}
 	
 	
