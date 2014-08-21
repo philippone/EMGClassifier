@@ -3,9 +3,9 @@ package classification;
 import java.io.File;
 import java.util.List;
 
+import classification.Config.CCTestParameter;
 import persistence.DataReaderWriter;
 import test.CrossCorrelation;
-import test.Test_CrossCorrelation.CCTestParameter;
 import data.LabeledFeatureVector;
 import libsvm.svm_model;
 
@@ -16,8 +16,8 @@ public class Util {
 		// parse Signal to LableledFeatureVector
 		List<LabeledFeatureVector> trainSamples = DataReaderWriter
 				.getTrainingLabledFeatureVectors(
-						CCTestParameter.getWindowSize(),
-						CCTestParameter.getExtractors(), trainingFile);
+						Config.CCTestParameter.getWindowSize(),
+						Config.CCTestParameter.getExtractors(), trainingFile);
 
 		// List<LabeledFeatureVector> trainSamples = new
 		// ArrayList<LabeledFeatureVector>();
@@ -30,11 +30,11 @@ public class Util {
 		CrossCorrelation cc = new CrossCorrelation(trainSamples);
 
 		double[] crossValidation = cc.crossValidation(
-				CCTestParameter.getGammaStart(), CCTestParameter.getGammaEnd(),
-				CCTestParameter.getGammaGranularity(),
-				CCTestParameter.getCStart(), CCTestParameter.getCEnd(),
-				CCTestParameter.getCGranularity(),
-				CCTestParameter.getFoldingFactor());
+				Config.CCTestParameter.getGammaStart(), Config.CCTestParameter.getGammaEnd(),
+				Config.CCTestParameter.getGammaGranularity(),
+				Config.CCTestParameter.getCStart(), Config.CCTestParameter.getCEnd(),
+				Config.CCTestParameter.getCGranularity(),
+				Config.CCTestParameter.getFoldingFactor());
 
 		Trainer trainer = new Trainer();
 

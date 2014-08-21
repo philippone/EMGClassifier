@@ -57,7 +57,6 @@ public class Classifier {
 		
 		
 
-		
 		double[] prob_estimates = new double[totalClasses];
 		double v1 = svm.svm_predict(model, nodes);
 		double v = svm.svm_predict_probability(model, nodes, prob_estimates);

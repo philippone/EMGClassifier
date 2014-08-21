@@ -45,9 +45,9 @@ public class Manager implements ObservableSignalListener,
 
 	private int j = 0;
 	private boolean recording = false;
-	private int simpleOnsetThreshold;
+//	private int simpleOnsetThreshold;
 	private File lastRecordFile = null;
-	private boolean useCurrent = true;
+//	private boolean useCurrent = true;
 
 	/**
 	 * notify manager when new signal appears
@@ -167,44 +167,47 @@ public class Manager implements ObservableSignalListener,
 
 	public void changeToClassifyMode() {
 		if (mode == Mode.TRAINING) {
+			
 			mode = Mode.CLASSIFYING;
 			svm_model svm_model = trainer.createModel();
 			classifier = new Classifier(svm_model);
+			
 		} else if (mode == Mode.RECORDING) {
+			
 			mode = Mode.CLASSIFYING;
-			if (useCurrent  && lastRecordFile != null) {
+			if (lastRecordFile != null) {
 
 				svm_model traingingModel = Util
 						.getTraingingModel(lastRecordFile);
 				classifier = new Classifier(traingingModel);
 
-			} else {
-				
-				File file = new File("resources/training");
-				File[] listFiles = null;
-				if (file.exists() && file.isDirectory()) {
-
-
-					listFiles = file.listFiles(new FilenameFilter() {
-						@Override
-						public boolean accept(File dir, String name) {
-							return name.endsWith(".csv");
-						}
-					});
-
-				}
-				
-				if (listFiles != null && listFiles.length > 0) {
-					
-					svm_model traingingModel = Util
-							.getTraingingModel(listFiles[0]);
-					classifier = new Classifier(traingingModel);
-					
-				}
-				
 			}
+			
+		} else if (mode == Mode.IDLE) {
+			mode = Mode.CLASSIFYING;
+
+			File file = new File("resources/training");
+			File[] listFiles = null;
+			if (file.exists() && file.isDirectory()) {
+
+				listFiles = file.listFiles(new FilenameFilter() {
+					@Override
+					public boolean accept(File dir, String name) {
+						return name.endsWith(".csv");
+					}
+				});
+
+			}
+
+			if (listFiles != null && listFiles.length > 0) {
+
+				svm_model traingingModel = Util.getTraingingModel(listFiles[0]);
+				classifier = new Classifier(traingingModel);
+
+			}
+
 		}
-		
+
 	}
 
 	public void changeToTrainMode() {
