@@ -43,6 +43,7 @@ public class SignalReader implements SerialPortEventListener {
 	/** The output stream to the port */
 	private OutputStream output;
 	private InputStream inputStream;
+	private boolean guiInit = false;
 	/** Milliseconds to block while waiting for port open */
 	private static final int TIME_OUT = 2000;
 	/** Default bits per second for COM port. */
@@ -68,6 +69,14 @@ public class SignalReader implements SerialPortEventListener {
 		};
 		t.start();
 		System.out.println("Reading Started");
+
+		try {
+			char tare = (char) 84;
+			output.write(tare);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
@@ -106,14 +115,17 @@ public class SignalReader implements SerialPortEventListener {
 					SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
 
 			// open the streams
-			input = new BufferedReader(new InputStreamReader(
-					serialPort.getInputStream()));
+//			input = new BufferedReader(new InputStreamReader(
+//					serialPort.getInputStream()));
 			output = serialPort.getOutputStream();
 
 			// add event listeners
 			serialPort.addEventListener(this);
 			serialPort.notifyOnDataAvailable(true);
 
+			serialPort.enableReceiveThreshold(6);
+			serialPort.enableReceiveTimeout(Integer.MAX_VALUE);
+			
 			inputStream = serialPort.getInputStream();
 		} catch (Exception e) {
 			System.err.println(e.toString());
@@ -134,58 +146,81 @@ public class SignalReader implements SerialPortEventListener {
 	/**
 	 * Handle an event on the serial port. Read the data and print it.
 	 */
-	public  void serialEvent(SerialPortEvent oEvent) {
+	public void serialEvent(SerialPortEvent oEvent) {
 
-		switch (oEvent.getEventType()) {
-		case SerialPortEvent.BI:
-		case SerialPortEvent.OE:
-		case SerialPortEvent.FE:
-		case SerialPortEvent.PE:
-		case SerialPortEvent.CD:
-		case SerialPortEvent.CTS:
-		case SerialPortEvent.DSR:
-		case SerialPortEvent.RI:
-		case SerialPortEvent.OUTPUT_BUFFER_EMPTY:
-			break;
-		case SerialPortEvent.DATA_AVAILABLE:
-			byte[] readBuffer = new byte[20];
-			try {
-				while (inputStream.available() > 0) {
-					int numBytes = inputStream.read(readBuffer);
-					String s = new String(readBuffer);
-//					System.out.print(s);
-					convertSignal(s);
+		if (isGuiInit()) {
+			switch (oEvent.getEventType()) {
+			case SerialPortEvent.BI:
+			case SerialPortEvent.OE:
+			case SerialPortEvent.FE:
+			case SerialPortEvent.PE:
+			case SerialPortEvent.CD:
+			case SerialPortEvent.CTS:
+			case SerialPortEvent.DSR:
+			case SerialPortEvent.RI:
+			case SerialPortEvent.OUTPUT_BUFFER_EMPTY:
+				break;
+			case SerialPortEvent.DATA_AVAILABLE:
+				byte[] readBuffer = new byte[8];
+
+				try {
+					while (inputStream.available() > 0) {
+						
+						Thread.sleep(2);
+						int total = 0;
+						int read = 0;
+						while (total < 8
+								&& (read = inputStream.read(readBuffer, total,
+										8 - total)) >= 0) {
+							total += read;
+						}
+
+						// int numBytes = inputStream.read(readBuffer, 0, 6);
+						// if (numBytes == 6) {
+						System.out.print("bytes: " + read + " - ");
+						for (byte b : readBuffer) {
+							System.out.print(b + " ");
+						}
+						System.out.println(" ");
+
+						// String s = new String(readBuffer); //
+						// System.out.print(s);
+						// convertSignal(s);
+						// }
+					}
+
+				} catch (IOException e) {
+					System.out.println(e);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-				
-				 
-			} catch (IOException e) {
-				System.out.println(e);
+				break;
 			}
-			break;
-		}
 
-		// if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
-		// try {
-		// String inputLine = input.readLine();
-		// convertSignal(inputLine);
-		// // System.out.println("ReadPort: " + inputLine);
-		// } catch (Exception e) {
-		// System.err.println(e.toString());
-		// }
-		// }
-		// Ignore all the other eventTypes, but you should consider the other
-		// ones.
+			// if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
+			// try {
+			// String inputLine = input.readLine();
+			// convertSignal(inputLine);
+			// // System.out.println("ReadPort: " + inputLine);
+			// } catch (Exception e) {
+			// System.err.println(e.toString());
+			// }
+			// }
+			// Ignore all the other eventTypes, but you should consider the
+			// other
+			// ones.
+		}
 	}
 
-
 	private void convertSignal(String inputLine) {
-//		System.out.println("convert: " +  inputLine + " (end)");
+		// System.out.println("convert: " + inputLine + " (end)");
 		inputLine.trim();
 		String[] values = inputLine.split(",");
-		
-//		System.out.println("valued: " + values[0] + ", " 
-//			+ values[1] + ", " + values[2]);
-		
+
+		// System.out.println("valued: " + values[0] + ", "
+		// + values[1] + ", " + values[2]);
+
 		try {
 			sig1.setValue(Integer.parseInt(values[0].trim()));
 			sig2.setValue(Integer.parseInt(values[1].trim()));
@@ -193,13 +228,19 @@ public class SignalReader implements SerialPortEventListener {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		
-		
-		
-//		System.out.println("notify");
+
+		// System.out.println("notify");
 
 		manager.notifySignal(sig1.getValue(), sig2.getValue(), sig3.getValue());
 
+	}
+
+	public boolean isGuiInit() {
+		return guiInit;
+	}
+
+	public void setGuiInit(boolean guiInit) {
+		this.guiInit = guiInit;
 	}
 
 }
