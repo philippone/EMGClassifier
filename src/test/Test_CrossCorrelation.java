@@ -26,7 +26,7 @@ public class Test_CrossCorrelation {
 		private static double CStart = 70;
 		private static double CEnd = 140;
 		private static double CGranularity = 1;
-		private static int foldingFactor = 5;
+		private static int foldingFactor = 3;
 
 		public static int getFoldingFactor() {
 			return foldingFactor;

@@ -38,8 +38,8 @@ public class SignalToFeatureConverter {
 		extractors.add(mav);
 
 		// WAMP
-		WillsonAmplitude wamp = new WillsonAmplitude();
-		extractors.add(wamp);
+//		WillsonAmplitude wamp = new WillsonAmplitude();
+//		extractors.add(wamp);
 
 		// Varaince
 		Variance v = new Variance();
