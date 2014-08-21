@@ -386,7 +386,7 @@ public class EMGClassifierGUI extends Application {
 
 	public void showClassifiedGesture(final Gesture gesture) {
 
-		System.out.println("showing gesture in gui");
+		System.out.println("showing gesture in gui: " + gesture.toString());
 		Platform.runLater(new Runnable() {
 
 			@Override

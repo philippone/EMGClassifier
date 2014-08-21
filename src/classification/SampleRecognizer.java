@@ -3,25 +3,17 @@ package classification;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import test.Test_CrossCorrelation.CCTestParameter;
+import classification.Config.CCTestParameter;
 import data.Baseline;
 import data.Sample;
 import data.Window;
 
 public class SampleRecognizer {
 
-	// Bonato Threshold for test-function
-	private final static double BONATO_THRESHOLD_H = 2;
-
-	// Bonato Threshold for M consecutive signal pairs
-	private final static double BONATO_THRESHOLD_M = 4;
-
-	private final static boolean BONATO_MOVING_BASELINE = false;
-
 	private Baseline baseline = new Baseline(3, 100);
-	private Window window = new Window(3, 10, BONATO_THRESHOLD_H,
-			BONATO_THRESHOLD_M);
-	private int recordTime = CCTestParameter.getWindowSize() * 15;
+	private Window window = new Window(3, 10, Config.ONSET_THRESHOLD_H,
+			Config.ONSET_THRESHOLD_M);
+	private int recordTime = Config.CCTestParameter.getWindowSize() * 15;
 	private boolean recording = false;
 	private long startRecTime = 0;
 	ArrayList<LinkedList<Integer>> sample = null;
@@ -91,7 +83,7 @@ public class SampleRecognizer {
 			System.out.print(check ? "filled\n" : "");
 			check = false;
 			
-			if (BONATO_MOVING_BASELINE) {
+			if (Config.ONSET_MOVING_BASELINE) {
 
 				 baseline.update(sig);
 			}
