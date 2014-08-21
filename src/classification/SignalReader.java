@@ -71,10 +71,10 @@ public class SignalReader implements SerialPortEventListener {
 		System.out.println("Reading Started");
 
 		try {
-			char tare = (char) 84;
-			output.write(tare);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			Thread.sleep(3000);
+			output.write(123);
+			output.flush();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
@@ -138,6 +138,16 @@ public class SignalReader implements SerialPortEventListener {
 	 */
 	public synchronized void close() {
 		if (serialPort != null) {
+			try {
+				System.out.println("close reader");
+				output.write(10);
+				output.flush();
+				Thread.sleep(1000);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			serialPort.removeEventListener();
 			serialPort.close();
 		}
@@ -164,48 +174,11 @@ public class SignalReader implements SerialPortEventListener {
 				byte[] readBuffer = new byte[8];
 
 				try {
-					int skip = 0;
-					int b1 = 0;
-					int b2 = 0;
-					int peek = 0;
-					int addpeek = 0;
-					while (inputStream.available() > 0) {
-						// skip
-						if (skip < 10) {
-							skip++;
-
-						} else {
-
-							b1 = b2;
-							while ((b2 = inputStream.read()) != -1) {
-
-								if ((b1 & b2) == 255) {
-
-									peek = input.read();
-									if (peek == 255) {
-
-										break;
-
-									} else {
-
-										addpeek = 1;
-										readBuffer[0] = (byte) peek;
-										break;
-
-									}
-
-								}
-								b1 = b2;
-							}
-
-						}
-
-					}
 
 					while (inputStream.available() > 0) {
 
 						Thread.sleep(2);
-						int total = addpeek;
+						int total = 0;
 						int read = 0;
 						while (total < 8
 								&& (read = inputStream.read(readBuffer, total,

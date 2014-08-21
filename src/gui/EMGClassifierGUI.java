@@ -420,4 +420,10 @@ public class EMGClassifierGUI extends Application {
 		});
 	}
 
+	
+	@Override
+	public void stop() throws Exception {
+		super.stop();
+		man.getSignalReader().close();
+	}
 }

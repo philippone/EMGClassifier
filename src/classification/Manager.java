@@ -24,34 +24,22 @@ public class Manager implements ObservableSignalListener,
 
 	EMGClassifierGUI gui;
 	private Classifier classifier;
-//	private long time = 0;
+	// private long time = 0;
 	private boolean isNextSignalOnset = false;
-//	private boolean waitForOnset = false;
+
+	// private boolean waitForOnset = false;
 
 	public void setGui(EMGClassifierGUI gui) {
 		this.gui = gui;
-		Runnable r = new Runnable() {
-			
-			@Override
-			public void run() {
-				try {
-					Thread.sleep(5000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				signalReader.setGuiInit(true);				
-			}
-		};
-		new Thread(r).start();
-		
+		getSignalReader().setGuiInit(true);
+
 	}
 
 	public Manager() {
 		mode = Mode.IDLE;
 
 		// read signal from sensors
-		signalReader = new SignalReader(this);
+		setSignalReader(new SignalReader(this));
 		sampleRecog = new SampleRecognizer(this);
 
 		// init trainer
@@ -60,9 +48,10 @@ public class Manager implements ObservableSignalListener,
 
 	private int j = 0;
 	private boolean recording = false;
-//	private int simpleOnsetThreshold;
+	// private int simpleOnsetThreshold;
 	private File lastRecordFile = null;
-//	private boolean useCurrent = true;
+
+	// private boolean useCurrent = true;
 
 	/**
 	 * notify manager when new signal appears
@@ -182,13 +171,13 @@ public class Manager implements ObservableSignalListener,
 
 	public void changeToClassifyMode() {
 		if (mode == Mode.TRAINING) {
-			
+
 			mode = Mode.CLASSIFYING;
 			svm_model svm_model = trainer.createModel();
 			classifier = new Classifier(svm_model);
-			
+
 		} else if (mode == Mode.RECORDING) {
-			
+
 			mode = Mode.CLASSIFYING;
 			if (lastRecordFile != null) {
 
@@ -197,7 +186,7 @@ public class Manager implements ObservableSignalListener,
 				classifier = new Classifier(traingingModel);
 
 			}
-			
+
 		} else if (mode == Mode.IDLE) {
 			mode = Mode.CLASSIFYING;
 
@@ -253,6 +242,14 @@ public class Manager implements ObservableSignalListener,
 	public void stopRecord() {
 		recording = false;
 		lastRecordFile = DataReaderWriter.writeSignal(record);
+	}
+
+	public SignalReader getSignalReader() {
+		return signalReader;
+	}
+
+	public void setSignalReader(SignalReader signalReader) {
+		this.signalReader = signalReader;
 	}
 
 }
