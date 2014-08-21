@@ -140,9 +140,7 @@ public class SignalReader implements SerialPortEventListener {
 		if (serialPort != null) {
 			try {
 				System.out.println("close reader");
-				output.write(10);
-				output.flush();
-				Thread.sleep(1000);
+				sendOutput();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -151,6 +149,19 @@ public class SignalReader implements SerialPortEventListener {
 			serialPort.removeEventListener();
 			serialPort.close();
 		}
+	}
+
+	public void sendOutput() {
+		// TODO Auto-generated method stub
+		try {
+			output.write(10);
+			output.flush();
+			Thread.sleep(1000);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	/**
