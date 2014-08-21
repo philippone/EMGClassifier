@@ -101,14 +101,20 @@ public class Testing {
 //		int size = onsetSignal.size();
 //		System.out.println(size);
 		
-		byte[] yolo = new byte[]{5,-121};
+//		byte[] yolo = new byte[]{5,-121};
+//		
+//		int x = 0; 
+//		for (byte b : yolo) {
+//			x = (x << 8) |( b & 0xff);
+//			System.out.println(Integer.toBinaryString(x));
+//		}
+//		System.out.println(x);
+		int i = 255;
+		int k = 127;
+		System.out.println(i & k);
+		int j = (byte) 240;
+		System.out.println(j);
 		
-		int x = 0; 
-		for (byte b : yolo) {
-			x = (x << 8) |( b & 0xff);
-			System.out.println(Integer.toBinaryString(x));
-		}
-		System.out.println(x);
 	}
 	
 	

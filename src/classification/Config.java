@@ -8,6 +8,7 @@ import extractors.SingleFeatureExtractor;
 import extractors.SlopeSignChanges;
 import extractors.Variance;
 import extractors.WaveformLength;
+import extractors.WillsonAmplitude;
 
 /**
  * @author Thomas
@@ -18,7 +19,7 @@ public class Config {
 	/**
 	 * Common Parameter
 	 */
-	final static int EMG_RATE = 1;
+	final static int EMG_RATE = 5;
     final static int WINDOW_SIZE = 450;	
 
 	/**
@@ -46,10 +47,10 @@ public class Config {
 		MeanAbsoluteValue mav = new MeanAbsoluteValue();
 		CLASSIFICATION_EXTRACTORS.add(mav);
 
-		// // WAMP
-		// WillsonAmplitude wamp = new WillsonAmplitude();
-		// CLASSIFICATION_EXTRACTORS.add(wamp);
-		//
+		 // WAMP
+//		 WillsonAmplitude wamp = new WillsonAmplitude();
+//		 CLASSIFICATION_EXTRACTORS.add(wamp);
+		
 		// Varaince
 		Variance v = new Variance();
 		CLASSIFICATION_EXTRACTORS.add(v);
@@ -76,8 +77,8 @@ public class Config {
 
 		public static ArrayList<SingleFeatureExtractor> extractors = CLASSIFICATION_EXTRACTORS;
 		public static int windowSize = ONSET_WINDOW_SIZE;
-		public static double gammaStart = 0.6;
-		public static double gammaEnd = 6;
+		public static double gammaStart = 3;
+		public static double gammaEnd = 7;
 		public static double gammaGranularity = 0.1;
 		public static double CStart = 70;
 		public static double CEnd = 140;

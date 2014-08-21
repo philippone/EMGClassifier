@@ -1,15 +1,18 @@
 package classification;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
-import classification.Config.CCTestParameter;
+import libsvm.svm_model;
 import persistence.DataReaderWriter;
 import test.CrossCorrelation;
+import data.FeatureVector;
 import data.LabeledFeatureVector;
-import libsvm.svm_model;
 
 public class Util {
+
+	public static boolean divideTrainingClassify = false;
 
 	public static svm_model getTraingingModel(File trainingFile) {
 
@@ -38,11 +41,42 @@ public class Util {
 
 		Trainer trainer = new Trainer();
 
-		trainer.lfvList.addAll(trainSamples);
-		svm_model createModel = trainer.createModel(crossValidation[0], crossValidation[1]);
-		
+		ArrayList<LabeledFeatureVector> trainList = new ArrayList<LabeledFeatureVector>();
+		ArrayList<LabeledFeatureVector> classifyList = new ArrayList<LabeledFeatureVector>();
+
+		if (divideTrainingClassify) {
+			for (int i = 0; i < trainSamples.size(); i++) {
+				if (i % 2 == 0)
+					trainList.add(trainSamples.get(i));
+				else
+					classifyList.add(trainSamples.get(i));
+			}
+
+			trainer.lfvList.addAll(trainList);
+		} else {
+			trainer.lfvList.addAll(trainSamples);
+		}
+		svm_model createModel = trainer.createModel(crossValidation[0],
+				crossValidation[1]);
+
+		Classifier classifier = new Classifier(createModel);
+
+		float a = 0;
+		if (divideTrainingClassify) {
+
+			for (LabeledFeatureVector v : classifyList) {
+				Gesture g = classifier.evaluate(
+						Gesture.labelToGesture(v.getLabel()),
+						new FeatureVector(v.getFeatures()));
+
+				if (g == Gesture.labelToGesture(v.getLabel())) {
+					a++;
+				}
+			}
+			System.out.println("Accuracy: " + a + " " + trainList.size() + ":"
+					+ a / trainList.size() * 100);
+		}
 		return createModel;
 
 	}
-
 }

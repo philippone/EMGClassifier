@@ -37,36 +37,37 @@ public class Classifier {
 	}
 
 	public Gesture evaluate(FeatureVector fv) {
+		return evaluate(Gesture.UNDEFINED, fv);
+	}
 
+	public Gesture evaluate(Gesture actual, FeatureVector fv) {
 		double[] features = fv.getFeatures();
-		
-		svm_node[] nodes = new svm_node[features.length - 1];
-		for (int i = 1; i < features.length; i++) {
+
+		svm_node[] nodes = new svm_node[features.length];
+		for (int i = 1; i <= features.length; i++) {
 			svm_node node = new svm_node();
 			node.index = i;
-			node.value = features[i];
+			node.value = features[i - 1];
 
 			nodes[i - 1] = node;
 		}
 
-		// TODO
-		int totalClasses = 4;
-		
-		int[] labels = new int[totalClasses];
-		svm.svm_get_labels(model, labels);
-		
-		
+		int nr_class = svm.svm_get_nr_class(model);
 
-		double[] prob_estimates = new double[totalClasses];
+		int[] labels = new int[nr_class];
+		svm.svm_get_labels(model, labels);
+		double[] prob_estimates = new double[nr_class];
+
 		double v1 = svm.svm_predict(model, nodes);
 		double v = svm.svm_predict_probability(model, nodes, prob_estimates);
 
-		for (int i = 0; i < totalClasses; i++) {
+		for (int i = 0; i < nr_class; i++) {
 			System.out.print("(" + labels[i] + ":" + prob_estimates[i] + ")");
 		}
-		System.out.println("(Actual:" + features[0] + " Prediction:" + v + ", " + v1 + ")");
+		System.out.println("Actual: " + actual + "; Prediction:" + v + ", "
+				+ v1 + ")");
 
-		return Gesture.labelToGesture(v);
+		return Gesture.labelToGesture(v1);
 	}
 
 }

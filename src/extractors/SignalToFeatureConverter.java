@@ -24,7 +24,6 @@ public class SignalToFeatureConverter {
 	 * 
 	 * */
 	public SignalToFeatureConverter() {
-		
 	}
 
 	public FeatureVector convert(Sample sample) {

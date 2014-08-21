@@ -9,11 +9,13 @@ import extractors.WillsonAmplitude;
 
 public class Test_CrossCorrelation {
 
-public final static void main(String[] args) {
+	public final static void main(String[] args) {
 
 		// parse Signal to LableledFeatureVector
 		List<LabeledFeatureVector> trainSamples = DataReaderWriter
-				.getTrainingLabledFeatureVectors(Config.CCTestParameter.windowSize, Config.CCTestParameter.extractors, null);
+				.getTrainingLabledFeatureVectors(
+						Config.CCTestParameter.windowSize,
+						Config.CCTestParameter.extractors, null);
 
 		// List<LabeledFeatureVector> trainSamples = new
 		// ArrayList<LabeledFeatureVector>();
@@ -25,8 +27,12 @@ public final static void main(String[] args) {
 		// validate
 		CrossCorrelation cc = new CrossCorrelation(trainSamples);
 
-		cc.crossValidation(Config.CCTestParameter.gammaStart, Config.CCTestParameter.gammaEnd, Config.CCTestParameter.gammaGranularity, Config.CCTestParameter.CStart,
-				Config.CCTestParameter.CEnd, Config.CCTestParameter.CGranularity, Config.CCTestParameter.foldingFactor);
+		cc.crossValidation(Config.CCTestParameter.gammaStart,
+				Config.CCTestParameter.gammaEnd,
+				Config.CCTestParameter.gammaGranularity,
+				Config.CCTestParameter.CStart, Config.CCTestParameter.CEnd,
+				Config.CCTestParameter.CGranularity,
+				Config.CCTestParameter.foldingFactor);
 	}
-	
+
 }
