@@ -24,9 +24,9 @@ public class Manager implements ObservableSignalListener,
 
 	EMGClassifierGUI gui;
 	private Classifier classifier;
-	private long time = 0;
+//	private long time = 0;
 	private boolean isNextSignalOnset = false;
-	private boolean waitForOnset = false;
+//	private boolean waitForOnset = false;
 
 	public void setGui(EMGClassifierGUI gui) {
 		this.gui = gui;

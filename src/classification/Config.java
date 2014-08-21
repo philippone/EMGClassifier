@@ -14,6 +14,12 @@ import extractors.WaveformLength;
  * 
  */
 public class Config {
+	
+	/**
+	 * Common Parameter
+	 */
+	final static int EMG_RATE = 1;
+    final static int WINDOW_SIZE = 450;	
 
 	/**
 	 * Onset Detection Parameter
@@ -24,7 +30,7 @@ public class Config {
 	// Bonato Threshold for M consecutive signal pairs
 	final static double ONSET_THRESHOLD_M = 4;
 	final static boolean ONSET_MOVING_BASELINE = false;
-	final static int ONSET_WINDOW_SIZE = 30;
+	final static int ONSET_WINDOW_SIZE = WINDOW_SIZE / EMG_RATE;
 
 	/**
 	 * Classification Parameter
