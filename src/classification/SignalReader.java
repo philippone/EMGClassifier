@@ -71,10 +71,10 @@ public class SignalReader implements SerialPortEventListener {
 		System.out.println("Reading Started");
 
 		try {
-			char tare = (char) 84;
-			output.write(tare);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			Thread.sleep(3000);
+			output.write(123);
+			output.flush();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
@@ -138,17 +138,36 @@ public class SignalReader implements SerialPortEventListener {
 	 */
 	public synchronized void close() {
 		if (serialPort != null) {
+			try {
+				System.out.println("close reader");
+				sendOutput();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			serialPort.removeEventListener();
 			serialPort.close();
 		}
+	}
+
+	public void sendOutput() {
+		// TODO Auto-generated method stub
+		try {
+			output.write(10);
+			output.flush();
+			Thread.sleep(1000);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	/**
 	 * Handle an event on the serial port. Read the data and print it.
 	 */
 	public void serialEvent(SerialPortEvent oEvent) {
-		System.out.println("yolo");
-
 		if (isGuiInit()) {
 			switch (oEvent.getEventType()) {
 			case SerialPortEvent.BI:
@@ -165,50 +184,11 @@ public class SignalReader implements SerialPortEventListener {
 				byte[] readBuffer = new byte[8];
 
 				try {
-					int skip = 0;
-					int b1 = 0;
-					int b2 = 0;
-					int peek = 0;
-					int addpeek = 0;
-					while (inputStream.available() > 0) {
-						System.out.println("available");
-						// skip
-						if (skip < 10) {
-							skip++;
-
-						} else {
-
-							b1 = b2;
-							while ((b2 = inputStream.read()) != -1) {
-
-								System.out.println("b1 = " + b1 + " , b2 = " + b2);
-								if ((b1 & b2) == 255) {
-
-									peek = input.read();
-									if (peek == 255) {
-
-										break;
-
-									} else {
-
-										addpeek = 1;
-										readBuffer[0] = (byte) peek;
-										break;
-
-									}
-
-								}
-								b1 = b2;
-							}
-
-						}
-
-					}
-
+					int i = 0;
 					while (inputStream.available() > 0) {
 
 						Thread.sleep(2);
-						int total = addpeek;
+						int total = 0;
 						int read = 0;
 						while (total < 8
 								&& (read = inputStream.read(readBuffer, total,
@@ -216,13 +196,15 @@ public class SignalReader implements SerialPortEventListener {
 							total += read;
 						}
 
+						convertSignal(readBuffer);
+						
 						// int numBytes = inputStream.read(readBuffer, 0, 6);
 						// if (numBytes == 6) {
-						System.out.print("bytes: " + read + " - ");
-						for (byte b : readBuffer) {
-							System.out.print(b + " ");
-						}
-						System.out.println(" ");
+//						System.out.print("bytes: " + read + " - ");
+//						for (byte b : readBuffer) {
+//							System.out.print(b + " ");
+//						}
+//						System.out.println(" ");
 
 						// String s = new String(readBuffer); //
 						// System.out.print(s);
@@ -254,6 +236,30 @@ public class SignalReader implements SerialPortEventListener {
 		}
 	}
 
+	private void convertSignal(byte[] buffer) {
+		
+		if ((buffer[6] == buffer[7] && buffer[7] == -1)) {
+			System.out.println("Error");
+		}
+		
+		int[] yoloswag = new int[3];
+		
+		for (int i = 0; i < 3; i++) {
+
+			for (int j = 1; j >= 0; j--) {
+
+				yoloswag[i] = (yoloswag[i] << 8) | (buffer[(i*2)+j] & 0xff);
+				
+			}
+			
+		}
+		
+		sig1.setValue(yoloswag[0]);
+		sig2.setValue(yoloswag[1]);
+		sig3.setValue(yoloswag[2]);
+	}
+	
+	
 	private void convertSignal(String inputLine) {
 		// System.out.println("convert: " + inputLine + " (end)");
 		inputLine.trim();
