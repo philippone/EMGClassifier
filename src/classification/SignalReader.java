@@ -196,6 +196,8 @@ public class SignalReader implements SerialPortEventListener {
 							total += read;
 						}
 
+						convertSignal(readBuffer);
+						
 						// int numBytes = inputStream.read(readBuffer, 0, 6);
 						// if (numBytes == 6) {
 						System.out.print("bytes: " + read + " - ");
@@ -234,6 +236,15 @@ public class SignalReader implements SerialPortEventListener {
 		}
 	}
 
+	private void convertSignal(byte[] buffer) {
+		
+		
+		sig1.setValue(0);
+		sig2.setValue(1);
+		sig3.setValue(2);
+	}
+	
+	
 	private void convertSignal(String inputLine) {
 		// System.out.println("convert: " + inputLine + " (end)");
 		inputLine.trim();
