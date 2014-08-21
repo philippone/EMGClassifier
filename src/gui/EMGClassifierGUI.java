@@ -163,7 +163,7 @@ public class EMGClassifierGUI extends Application {
 					@Override
 					public void handle(MouseEvent arg0) {
 						man.changeToIdleMode();
-						man.getSignalReader().sendOutput();
+//						man.getSignalReader().sendOutput();
 					}
 				});
 		modeTrainingButton.addEventHandler(MouseEvent.MOUSE_CLICKED,
